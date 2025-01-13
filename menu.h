@@ -4,15 +4,13 @@
 
 #include <raylib.h>
 
-// حالت‌های بازی
-enum GameState {
+typedef enum GameState {
     MENU,
     GAME,
     SCORE,
     EXIT
-};
+} GameState;
 
-// توابع منو
 void DrawMenu(int selectedItem, Texture2D background);
 void HandleMenuInput(int *selectedItem, GameState *currentState);
 
