@@ -10,11 +10,11 @@ void DrawMenu(int selectedItem, Texture2D background) {
     DrawTexture(background, 0, 0, WHITE);
 
     // رسم عنوان منو
-    DrawText("Main Menu", 300, 50, 40, RAYWHITE);
+    DrawText("Main Menu", 190, 50, 80, RAYWHITE);
 
     // رسم گزینه‌ها
     for (int i = 0; i < 3; i++) {
-        Color color = (i == selectedItem) ? YELLOW : WHITE;
+        Color color = (i == selectedItem) ? YELLOW :GRAY;
         DrawText(menuItems[i], 350, 150 + i * 50, 30, color);
     }
 
@@ -23,9 +23,9 @@ void DrawMenu(int selectedItem, Texture2D background) {
 
 void HandleMenuInput(int *selectedItem, GameState *currentState) {
     if (IsKeyPressed(KEY_DOWN)) {
-        *selectedItem = (*selectedItem + 1) % 3; // گزینه بعدی
+        *selectedItem = (*selectedItem + 1) % 3;
     } else if (IsKeyPressed(KEY_UP)) {
-        *selectedItem = (*selectedItem - 1 + 3) % 3; // گزینه قبلی
+        *selectedItem = (*selectedItem + 3) % 3;
     } else if (IsKeyPressed(KEY_ENTER)) {
         if (*selectedItem == 0) *currentState = GAME;
         else if (*selectedItem == 1) *currentState = SCORE;
