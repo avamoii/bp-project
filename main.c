@@ -9,7 +9,7 @@ int main() {
     SetTargetFPS(60);
 
 
-    Texture2D background = LoadTexture("C:/Users/Aras Computer/Desctop/bp/tools/background.jpg");
+    Texture2D background = LoadTexture("../tools/background.jpg");
 
     GameState currentState = MENU;
     int selectedItem = 0;
