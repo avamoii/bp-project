@@ -35,7 +35,10 @@ add_executable(bp main.c
         player.h
         player.c
         map.h
-        map.c)
+        map.c
+        menu.h
+        menu.c
+        temp.c)
 
 # set the include directory
 target_include_directories(bp PRIVATE ${raylib_INCLUDE_DIRS})
