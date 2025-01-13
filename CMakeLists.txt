@@ -31,7 +31,11 @@ else ()
     message(STATUS "Using local ${LIB1}")
 endif ()
 
-add_executable(bp main.c)
+add_executable(bp main.c
+        player.h
+        player.c
+        map.h
+        map.c)
 
 # set the include directory
 target_include_directories(bp PRIVATE ${raylib_INCLUDE_DIRS})

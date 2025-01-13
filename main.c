@@ -1,11 +1,26 @@
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include<raylib.h>
-#include <external/cgltf.h>
+
+
+#define TILE_SIZE 25
+#define  GRID_WIDTH 40
+#define  GRID_HEIGHT 28
+
 
 int main()
 {
     const int SCREEN_WIDTH = 1000;
     const int SCREEN_HEIGHT = 700;
+
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "GameMap");
+    int pacmanX = TILE_SIZE, pacmanY = TILE_SIZE;
+    int pacmanSpeed = 5;
+
+
+    Texture2D pacmanTexture = LoadTexture("C:/Users/Aras Computer/Desktop/bp/tools/pacman4.png");
+
+
     int map[28][40]={
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -37,34 +52,62 @@ int main()
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
     };
     SetTargetFPS(60);
+
     Color myColor1 = (Color){0,0,90,255};
     Color myColor2 = (Color){173,216,230,255};
     Color yellow = (Color){204,204,0,255};
-
+// Main loop of the game
     while (!WindowShouldClose())
     {
+        //pacman location
+        int gridX = (pacmanX / TILE_SIZE);
+        int gridY = (pacmanY / TILE_SIZE);
+
+        // input limitation and movement
+        if(IsKeyDown(KEY_UP) && gridY > 0 && map[gridY-1][gridX] == 0)
+        {
+            pacmanY-= pacmanSpeed;
+        }
+        if(IsKeyDown(KEY_DOWN) && gridY < GRID_HEIGHT - 1 && map[gridY + 1][gridX] == 0)
+        {
+            pacmanY+= pacmanSpeed;
+        }
+        if(IsKeyDown(KEY_LEFT) && gridX > 0 && map[gridY][gridX -1] == 0)
+        {
+            pacmanX-= pacmanSpeed;
+        }
+        if(IsKeyDown(KEY_RIGHT) && gridX < GRID_WIDTH - 1 && map[gridY][gridX +1] == 0)
+        {
+            pacmanX+= pacmanSpeed;
+        }
+
         BeginDrawing();
         ClearBackground(BLACK);
-        for( int i = 0; i < 28; i++)
+
+        for( int y = 0; y < GRID_HEIGHT; y++)
         {
-            for( int j = 0; j < 40; j++)
+            for( int x = 0; x < GRID_WIDTH; x++)
             {
-                if(map[i][j] == 1)
+                if(map[y][x] == 1)
                 {
-                    DrawRectangle(j*25,i*25,25,25,myColor2);
+                    DrawRectangle(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE,myColor2);
                 }
                 else
                 {
-                    DrawRectangle(j*25,i*25,25,25,myColor1);
+                    DrawRectangle(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE,myColor1);
                 }
-                if(map[i][j] == 0)
+                if(map[y][x] == 0)
                 {
-                    DrawCircle(j*25 +17,i*25 + 17,2,yellow);
+                    DrawCircle(x*TILE_SIZE+17,y*TILE_SIZE + 17,2,yellow);
                 }
             }
         }
+        // Draw pacman
+        DrawTextureEx(pacmanTexture,(Vector2){pacmanX +12/5,pacmanY +12/5},0.0f,0.08f,WHITE);
+
         EndDrawing();
     }
+    UnloadTexture(pacmanTexture);
     CloseWindow();
 }
 
