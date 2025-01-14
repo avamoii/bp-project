@@ -18,16 +18,26 @@ static Texture2D background;
 void InitMenuScreen(void) {
     background = LoadTexture("../tools/background4.jpg");
     selectedOption = 0;
+    finalOption = MENU;
 }
 
 // Menu Screen Update logic
-void UpdateMenuScreen(void) {
+void UpdateMenuScreen(void)
+{
     if (IsKeyPressed(KEY_DOWN)) selectedOption++;
     if (IsKeyPressed(KEY_UP)) selectedOption--;
     if (selectedOption < 0) selectedOption = 0;
     if (selectedOption > 2) selectedOption = 2;  // تعداد گزینه‌ها
     if (IsKeyPressed(KEY_ENTER)) {
-        finalOption = GAMEPLAY;
+        switch (selectedOption) {
+        case 0:finalOption = GAMEPLAY;
+            break;
+        case 1:finalOption = SCORE;
+            break;
+        case 2: CloseWindow();
+            break;
+        default:finalOption = MENU;
+        }
     }
 }
 
