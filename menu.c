@@ -1,5 +1,7 @@
 #include "menu.h"
 
+#include "menu.h"
+
 void DrawMenu(int selectedItem, Texture2D background) {
     const char *menuItems[] = {"Start", "Score", "Exit"}; // گزینه‌های منو
 
@@ -7,19 +9,20 @@ void DrawMenu(int selectedItem, Texture2D background) {
     ClearBackground(BLACK);
 
     // رسم پس‌زمینه
-    DrawTexture(background, 0, 0, WHITE);
+    DrawTextureEx(background, (Vector2){0, -200}, 0.0f,1.1,WHITE );
 
     // رسم عنوان منو
     DrawText("Main Menu", 190, 50, 80, RAYWHITE);
 
     // رسم گزینه‌ها
     for (int i = 0; i < 3; i++) {
-        Color color = (i == selectedItem) ? YELLOW :GRAY;
-        DrawText(menuItems[i], 350, 150 + i * 50, 30, color);
+        Color color = (i == selectedItem) ? YELLOW : GRAY;
+        DrawText(menuItems[i], 300, 150 + i * 50, 60, color);
     }
 
     EndDrawing();
 }
+
 
 void HandleMenuInput(int *selectedItem, GameState *currentState) {
     if (IsKeyPressed(KEY_DOWN)) {
