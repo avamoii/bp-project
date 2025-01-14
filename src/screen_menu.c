@@ -1,9 +1,12 @@
 #include <raylib.h>
 
+#include "screen.h"
+
 //----------------------------------------------------------------------------------
 // Module Variables Definition (local)
 //----------------------------------------------------------------------------------
 static int selectedOption = 0;
+static int finalOption = 0;
 static int finishScreen = 0;
 static Texture2D background;
 
@@ -24,9 +27,7 @@ void UpdateMenuScreen(void) {
     if (selectedOption < 0) selectedOption = 0;
     if (selectedOption > 2) selectedOption = 2;  // تعداد گزینه‌ها
     if (IsKeyPressed(KEY_ENTER)) {
-        if (selectedOption == 0) TransitionToScreen(GAMEPLAY);
-        else if (selectedOption == 1) TransitionToScreen(SCORE);
-        else if (selectedOption == 2) CloseWindow();  // خروج
+        finalOption = GAMEPLAY;
     }
 }
 
@@ -49,5 +50,5 @@ void UnloadMenuScreen(void) {
 // Logo Screen should finish?
 int FinishMenuScreen(void)
 {
-    return finishScreen;
+    return finalOption;
 }

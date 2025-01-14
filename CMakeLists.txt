@@ -31,17 +31,17 @@ else ()
     message(STATUS "Using local ${LIB1}")
 endif ()
 
-add_executable(bp main.c
-        map.h
-        map.c
-        temp.c
-        pacman.h
-        pacman.c
-        screen.h
-        screen_menu.c
-        screen_gameplay.c
-        screen_score.c
-        screen_ending.c
+add_executable(bp src/main.c
+        src/map.h
+        src/map.c
+        src/temp.c
+        src/pacman.h
+        src/pacman.c
+        src/screen.h
+        src/screen_menu.c
+        src/screen_gameplay.c
+        src/screen_score.c
+        src/screen_ending.c
 )
 
 # set the include directory
