@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include "menu.h"
 #include "screen.h"
+
 int currentScreen = 0;
 //----------------------------------------------------------------------------------
 // Change to screen, no transition effect
