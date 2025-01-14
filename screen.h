@@ -3,6 +3,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 typedef enum GameScreen { MENU, SCORE, GAMEPLAY, ENDING } GameScreen;
+
 //--------------------------------------------------------------------------------
 // Logo Screen Functions Declaration
 //----------------------------------------------------------------------------------
