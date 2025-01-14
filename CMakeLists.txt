@@ -39,7 +39,9 @@ add_executable(bp main.c
         temp.c
         pacman.h
         pacman.c
-        screen.h)
+        screen.h
+        screen_menu.c
+        screen_gameplay.c)
 
 # set the include directory
 target_include_directories(bp PRIVATE ${raylib_INCLUDE_DIRS})
