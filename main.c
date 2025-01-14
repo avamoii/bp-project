@@ -6,13 +6,12 @@
 // Shared Variables Definition (global)
 //----------------------------------------------------------------------------------
 GameScreen currentScreen = MENU;
-
+int screenWidth = 800;
+int screenHeight = 600;
 
 //----------------------------------------------------------------------------------
 // Module Variables Definition (local)
 //----------------------------------------------------------------------------------
-static const int screenWidth = 1280;
-static const int screenHeight = 720;
 
 static float transAlpha = 0;
 static bool onTransition = false;
@@ -38,7 +37,11 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 // Main entry point
 //----------------------------------------------------------------------------------
 int main() {
-    InitWindow(screenWidth, screenHeight, "Simple Menu");
+    InitWindow(screenWidth, screenHeight, "PacMan Game - Ava");
+
+    // Set window to full screen mode
+    // ToggleFullscreen();
+
     SetTargetFPS(60);
 
     // Load global data here (assets that must be available in all screens, i.e. fonts)
@@ -216,10 +219,6 @@ void UpdateDrawFrame(void)
         }
 
         if (onTransition) DrawTransition();
-
-        DrawRectangle(GetScreenWidth() - 200, GetScreenHeight() - 50, 200, 40, Fade(WHITE, 0.6f));
-        DrawText("ALPHA VERSION", GetScreenWidth() - 180, GetScreenHeight() - 40, 20, DARKGRAY);
-
     EndDrawing();
     //----------------------------------------------------------------------------------
 }
