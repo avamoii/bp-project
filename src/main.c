@@ -149,7 +149,9 @@ void UpdateDrawFrame(void)
             {
                 UpdateMenuScreen();
 
-                if (FinishMenuScreen() != MENU) TransitionToScreen(FinishMenuScreen());
+                if (FinishMenuScreen() != MENU) {
+                    ChangeToScreen(FinishMenuScreen());
+                }
 
             } break;
             case SCORE:
