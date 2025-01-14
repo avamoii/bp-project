@@ -1,6 +1,28 @@
 #include <raylib.h>
 #include "menu.h"
+#include "screen.h"
+int currentScreen = 0;
+//----------------------------------------------------------------------------------
+// Change to screen, no transition effect
+static void ChangeToScreen(int screen)
+{
+    switch (currentScreen)
+    {
+    case TITLE: UnloadTitleScreen(); break;
+    case GAMEPLAY: UnloadGameplayScreen(); break;
+    default: break;
+    }
 
+    switch (screen)
+    {
+    case LOGO: InitLogoScreen(); break;
+    case TITLE: InitTitleScreen(); break;
+    case GAMEPLAY: InitGameplayScreen(); break;
+    default: break;
+    }
+
+    currentScreen = screen;
+}
 int main() {
     const int SCREEN_WIDTH = 800;
     const int SCREEN_HEIGHT = 600;
