@@ -1,4 +1,7 @@
 #include <raylib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 #define ROWS 24
 #define COLS 32
@@ -33,14 +36,25 @@ int Map[24][32] ={
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
     {9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9}
 };
+Vector2 randomFoods[10];
+void selectRandomFood()
+{
+    int count =0;
+    while (count < 10)
+    {
+        int randY = rand() % ROWS;
+        int randX = rand() % COLS;
+        if(Map[randY][randX] == 0){
+            randomFoods[count].x = randX;
+        }   randomFoods[count].y = randY;
+    }
+}
 
 
 static int playerX = 1, playerY = 1;
 
 void InitGameplayScreen(void) {
-    playerX = 1;
-    playerY = 1;
-    Map[playerY][playerX] = 3;
+  selectRandomFood();
 }
 
 void UpdateGameplayScreen(void) {
@@ -69,7 +83,7 @@ void DrawGameplayScreen(void)
 {
     Color myColor1 = (Color){0, 0, 90, 255};
     Color myColor2 = (Color){173, 216, 230, 255};
-    //Color yellow = (Color){204, 204, 0, 255};
+    Color yellow = (Color){204, 204, 0, 255};
 
     for (int y = 0; y < ROWS; y++)
     {
@@ -82,7 +96,7 @@ void DrawGameplayScreen(void)
             {
                 DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, myColor2);
             }
-            else if (Map[y][x] == 0)
+            else if (Map[y][x] == 0 )
             {
                 DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, myColor1);
             }
@@ -91,6 +105,11 @@ void DrawGameplayScreen(void)
                 DrawRectangle(posX , posY , TILE_SIZE,TILE_SIZE ,BLACK);
             }
         }
+    }
+
+    for (int i=0 ; i<10; i++)
+    {
+        DrawCircle(randomFoods[i].x +12.5,randomFoods[i].y+12.5, 2,YELLOW);
     }
 }
 
