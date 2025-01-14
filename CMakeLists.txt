@@ -42,7 +42,7 @@ add_executable(bp main.c
         screen_gameplay.c
         screen_score.c
         screen_ending.c
-        ending.h)
+)
 
 # set the include directory
 target_include_directories(bp PRIVATE ${raylib_INCLUDE_DIRS})

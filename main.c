@@ -1,7 +1,4 @@
 #include <raylib.h>
-#include "gameplay.h"
-#include "score.h"
-#include "ending.h"
 #include "screen.h"
 
 
