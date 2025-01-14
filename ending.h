@@ -5,6 +5,6 @@ void InitEndingScreen(void);
 void UpdateEndingScreen(void);
 void DrawEndingScreen(void);
 void UnloadEndingScreen(void);
-bool FinishEndingScreen(void);
+int FinishEndingScreen(void);
 
 #endif

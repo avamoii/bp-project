@@ -1,4 +1,3 @@
-#include "menu.h"
 #include <raylib.h>
 
 //----------------------------------------------------------------------------------
@@ -48,7 +47,7 @@ void UnloadMenuScreen(void) {
 }
 
 // Logo Screen should finish?
-int FinishLogoScreen(void)
+int FinishMenuScreen(void)
 {
     return finishScreen;
 }

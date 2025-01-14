@@ -34,8 +34,6 @@ endif ()
 add_executable(bp main.c
         map.h
         map.c
-        menu.h
-        menu.c
         temp.c
         pacman.h
         pacman.c
@@ -44,8 +42,6 @@ add_executable(bp main.c
         screen_gameplay.c
         screen_score.c
         screen_ending.c
-        gameplay.h
-        score.h
         ending.h)
 
 # set the include directory

@@ -50,7 +50,4 @@ void UnloadEndingScreen(void);
 int FinishEndingScreen(void);
 
 
-
-
-
-#endif // SCREENS_H
+#endif // SCREEN_H

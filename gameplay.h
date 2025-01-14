@@ -5,6 +5,6 @@ void InitGameplayScreen(void);
 void UpdateGameplayScreen(void);
 void DrawGameplayScreen(void);
 void UnloadGameplayScreen(void);
-bool FinishGameplayScreen(void);
+int FinishGameplayScreen(void);
 
 #endif
