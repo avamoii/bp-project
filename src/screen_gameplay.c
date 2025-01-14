@@ -35,25 +35,23 @@ int Map[24][32] = {
     {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9}
 };
 
-void placeRandomFood() {
-    int randY = GetRandomValue(0, ROWS);
-    int randX = GetRandomValue(0, COLS);
-    if (Map[randY][randX] == 0) {
-        Map[randY][randX] = 2; // food
+void placeRandomFood(int input) {
+    int count =0;
+    while (count<input){
+        int y = GetRandomValue(0, ROWS-1);
+        int x = GetRandomValue(0, COLS-1);
+        if (Map[y][x]==0)
+        {
+            Map[y][x] = 2;
+            count++;
+        }
     }
 }
-
-void placeRandomFoodWithCount(int count) {
-    for (int i = 0; i < count; i++) {
-        placeRandomFood();
-    }
-}
-
 
 static int playerX = 1, playerY = 1;
 
 void InitGameplayScreen(void) {
-    placeRandomFoodWithCount(10);
+    placeRandomFood(10);
 }
 
 void UpdateGameplayScreen(void) {
@@ -89,17 +87,20 @@ void DrawGameplayScreen(void) {
 
             if (Map[y][x] == 1) {
                 DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, myColor2);
-            } else if (Map[y][x] == 0) {
-                DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, myColor1);
-            } else if (Map[y][x] == 2) {
-                DrawCircle((int) (posX + 12.5),
-                           (int) (posY + 12.5),
-                           2,
-                           YELLOW
-                );
-            } else if (Map[y][x] == 9) {
-                DrawRectangle(posX, posY, TILE_SIZE,TILE_SIZE,BLACK);
             }
+            else if (Map[y][x] == 0 || Map[y][x] == 2)
+            {
+                DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, myColor1);
+            }
+             else if (Map[y][x] == 9)
+             {
+                DrawRectangle(posX, posY, TILE_SIZE,TILE_SIZE,BLACK);
+             }
+            if (Map[y][x] == 2)
+            {
+                DrawCircle(posX +12.5, posY+12.5, 3, YELLOW);
+            }
+
         }
     }
 }
