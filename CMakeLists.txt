@@ -32,8 +32,6 @@ else ()
 endif ()
 
 add_executable(bp main.c
-        player.h
-        player.c
         map.h
         map.c
         menu.h
