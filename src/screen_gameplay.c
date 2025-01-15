@@ -12,8 +12,9 @@
 //==========================================================================
 bool isCherryEaten = false;
 time_t cherryTimeStart;
-bool isPepperEaten = false; //
+bool isPepperEaten = false;
 time_t pepperTimeStart;
+int remainingFoods = 10;
 //==========================================================================
 bool isGameOver;
 Texture2D cherry;
@@ -184,7 +185,14 @@ void checkFoods(Pacman *pacman)
     {
         pacman->score += 10;
         Map[pacman->y][pacman->x] = 0;
+        remainingFoods--;
+        if (remainingFoods == 0)
+        {
+            remainingFoods = 10;
+            placeRandomFoods(10, 2);
+        }
     }
+
     else if (Map[pacman->y][pacman->x] == 3)
     {
         isCherryEaten = true;
@@ -428,7 +436,7 @@ static void UpdatePlayer(void) {
 
 void UpdateGameplayScreen(void)
 {
-    if(!isCherryEaten) {
+    if(!isGameOver) {
         UpdatePlayer();
         MoveGhost(&ghost1, Map);
         MoveGhost(&ghost2, Map);
