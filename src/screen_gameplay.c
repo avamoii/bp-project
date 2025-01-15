@@ -2,13 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include<stdbool.h>
+#include <time.h>
 
 #define ROWS 24
 #define COLS 32
 #define TILE_SIZE 25
 #define mapWidth 800
 #define mapHeight 600
-
+//==========================================================================
+bool isCherryEaten = false;
+time_t cherryTimeStart;
+bool isPepperEaten = false; //
+time_t pepperTimeStart;
+//==========================================================================
 Texture2D cherry;
 Texture2D apple;
 Texture2D pepper;
@@ -30,6 +36,8 @@ typedef struct {
     int lives;
     bool isMouthOpen;
     int frameCounter;
+    int score;
+    int speed;
 } Pacman;
 
 typedef struct {
@@ -37,6 +45,9 @@ typedef struct {
     int y;
     int dx;
     int dy;
+    int frameCounter;
+    bool isVisible;
+
 } Ghost;
 
 Pacman pacman;
@@ -121,20 +132,140 @@ void ghostRandomlocation(int map[ROWS][COLS], Ghost *ptr) {
 
 // pacman movement
 void MovePacman(Pacman *pacman) {
-    int nextX = pacman->x / TILE_SIZE + pacman->dx;
-    int nextY = pacman->y / TILE_SIZE + pacman->dy;
+    int nextX = (pacman->x  + pacman->dx) ;
+    int nextY = (pacman->y  + pacman->dy);
 
 
     if (nextX >= 0 && nextX < COLS && nextY >= 0 && nextY < ROWS) {
         if (Map[nextY][nextX] != 1) {
 
-            pacman->x += pacman->dx * TILE_SIZE;
-            pacman->y += pacman->dy * TILE_SIZE;
+            pacman->x += pacman->dx;
+            pacman->y += pacman->dy;
         }
     }
     pacman->dx = 0;
     pacman->dy = 0;
 }
+
+void MoveGhost(Ghost *ghost, int map[ROWS][COLS]) {
+    ghost->frameCounter++;
+
+
+    if (ghost->frameCounter >= 17) {
+
+        int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+
+        int directionIndex = GetRandomValue(0, 3);
+        int newDx = directions[directionIndex][0];
+        int newDy = directions[directionIndex][1];
+
+
+        int nextX = ghost->x + newDx;
+        int nextY = ghost->y + newDy;
+
+
+        if (nextX >= 0 && nextX < COLS && nextY >= 0 && nextY < ROWS) {
+            if (map[nextY][nextX] != 1) {
+
+                ghost->x += newDx;
+                ghost->y += newDy;
+            }
+        }
+
+        ghost->frameCounter = 0;  // بازنشانی شمارنده
+    }
+}
+
+void checkFoods(Pacman *pacman)
+{
+    if(Map[pacman->y][pacman->x] == 2)
+    {
+        pacman->score += 10;
+        Map[pacman->y][pacman->x] = 0;
+    }
+    else if (Map[pacman->y][pacman->x] == 3)
+    {
+        isCherryEaten = true;
+        cherryTimeStart = time(NULL);
+        Map[pacman->y][pacman->x] = 0;
+        pacman->isMouthOpen = true;
+    }
+    else if (Map[pacman->y][pacman->x] == 4)
+    {
+        pacman->lives++;
+        Map[pacman->y][pacman->x] = 0;
+    }
+    else if (Map[pacman->y][pacman->x] == 5)
+    {
+        pacman->lives--;
+        Map[pacman->y][pacman->x] = 0;
+    }
+    else if (Map[pacman->y][pacman->x] == 6)
+    {
+        pacman->speed++;
+        Map[pacman->y][pacman->x] = 0;
+        isPepperEaten = true;
+        pepperTimeStart = time(NULL);
+    }
+}
+void updateCherryMode(Pacman *pacman) {
+    if (isCherryEaten) {
+        time_t currentTime = time(NULL);
+        if (difftime(currentTime, cherryTimeStart) >= 10) { // بررسی گذشت زمان 10 ثانیه
+            isCherryEaten = false;  // پایان حالت گیلاس
+            pacman->isMouthOpen = false; // دهان بسته شود
+        } else {
+            pacman->isMouthOpen = true; // دهان باز بماند
+        }
+    }
+}
+void updatePepperMode(Pacman *pacman) {
+    if (isPepperEaten) {
+        time_t currentTime = time(NULL);
+        if (difftime(currentTime, pepperTimeStart) >= 10) { // بررسی زمان
+            isPepperEaten = false; // پایان حالت فلفل
+            pacman->speed--;       // بازگشت به سرعت اولیه
+        }
+    }
+}
+//================================================================================================
+void updateGhostsVisibilityForCherryMode(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3, Ghost *ghost4, Ghost *ghost5) {
+    if (isCherryEaten) {
+        // بررسی برخورد پک‌من با هر یک از روح‌ها
+        if (ghost1->isVisible && ghost1->x == pacman->x && ghost1->y == pacman->y) {
+            ghost1->isVisible = false;
+            pacman->score += 50;
+        }
+        if (ghost2->isVisible && ghost2->x == pacman->x && ghost2->y == pacman->y) {
+            ghost2->isVisible = false;
+            pacman->score += 50;
+        }
+        if (ghost3->isVisible && ghost3->x == pacman->x && ghost3->y == pacman->y) {
+            ghost3->isVisible = false;
+            pacman->score += 50;
+        }
+        if (ghost4->isVisible && ghost4->x == pacman->x && ghost4->y == pacman->y) {
+            ghost4->isVisible = false;
+            pacman->score += 50;
+        }
+        if (ghost5->isVisible && ghost5->x == pacman->x && ghost5->y == pacman->y) {
+            ghost5->isVisible = false;
+            pacman->score += 50;
+        }
+    } else {
+
+        ghost1->isVisible = true;
+        ghost2->isVisible = true;
+        ghost3->isVisible = true;
+        ghost4->isVisible = true;
+        ghost5->isVisible = true;
+    }
+}
+
+
+
+
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -168,6 +299,8 @@ void InitGameplayScreen(void) {
     pacman.lives = 3;
     pacman.isMouthOpen = true;
     pacman.frameCounter = 0;
+    pacman.score = 0;
+    pacman.speed =0;
     // initializing ghosts
 
     ghostRandomlocation(Map, &ghost1);
@@ -233,45 +366,64 @@ void DrawGameplayScreen(void) {
     //---------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------
     // drawing characters
-    if (pacman.isMouthOpen) {
+    if (!pacman.isMouthOpen) {
         DrawTexture(pacmanOpen, pacman.x * TILE_SIZE, pacman.y*TILE_SIZE,WHITE);
     } else {
         DrawTexture(pacmanClose, pacman.x*TILE_SIZE, pacman.y*TILE_SIZE,WHITE);
     }
-    DrawTexture(ghost11, ghost1.x*TILE_SIZE, ghost1.y*TILE_SIZE,WHITE);
-    DrawTexture(ghost12, ghost2.x*TILE_SIZE, ghost2.y*TILE_SIZE,WHITE);
-    DrawTexture(ghost13, ghost3.x*TILE_SIZE, ghost3.y*TILE_SIZE,WHITE);
-    DrawTexture(ghost14, ghost4.x*TILE_SIZE, ghost4.y*TILE_SIZE,WHITE);
-    DrawTexture(ghost15, ghost5.x*TILE_SIZE, ghost5.y*TILE_SIZE,WHITE);
+    if (ghost1.isVisible) {
+        DrawTexture(ghost11, ghost1.x * TILE_SIZE, ghost1.y * TILE_SIZE, WHITE);
+    }
+    if (ghost2.isVisible) {
+        DrawTexture(ghost12, ghost2.x * TILE_SIZE, ghost2.y * TILE_SIZE, WHITE);
+    }
+    if (ghost3.isVisible) {
+        DrawTexture(ghost13, ghost3.x * TILE_SIZE, ghost3.y * TILE_SIZE, WHITE);
+    }
+    if (ghost4.isVisible) {
+        DrawTexture(ghost14, ghost4.x * TILE_SIZE, ghost4.y * TILE_SIZE, WHITE);
+    }
+    if (ghost5.isVisible) {
+        DrawTexture(ghost15, ghost5.x * TILE_SIZE, ghost5.y * TILE_SIZE, WHITE);
+    }
 }
 
 static void UpdatePlayer(void) {
-    pacman.frameCounter++;
-    if (pacman.frameCounter >= 10) {
-        pacman.isMouthOpen = !pacman.isMouthOpen;
-        pacman.frameCounter = 0;
+    if (!isCherryEaten) {
+        pacman.frameCounter++;
+        if (pacman.frameCounter >= 10) {
+            pacman.isMouthOpen = !pacman.isMouthOpen;
+            pacman.frameCounter = 0;
+        }
     }
 
     if (IsKeyPressed(KEY_UP)) {
-        pacman.dy = -1;
+        pacman.dy = -1 - pacman.speed;
         pacman.dx = 0;
     } else if (IsKeyPressed(KEY_DOWN)) {
-        pacman.dy = 1;
+        pacman.dy = 1 + pacman.speed;
         pacman.dx = 0;
     } else if (IsKeyPressed(KEY_LEFT)) {
-        pacman.dx = -1;
+        pacman.dx = -1 - pacman.speed;
         pacman.dy = 0;
     } else if (IsKeyPressed(KEY_RIGHT)) {
-        pacman.dx = 1;
+        pacman.dx = 1 + pacman.speed;
         pacman.dy = 0;
     }
-
     MovePacman(&pacman);
 }
 
-
 void UpdateGameplayScreen(void) {
     UpdatePlayer();
+    MoveGhost(&ghost1, Map);
+    MoveGhost(&ghost2, Map);
+    MoveGhost(&ghost3, Map);
+    MoveGhost(&ghost4, Map);
+    MoveGhost(&ghost5, Map);
+    checkFoods(&pacman);
+    updateCherryMode(&pacman);
+    updatePepperMode(&pacman);
+    updateGhostsVisibilityForCherryMode(&pacman, &ghost1, &ghost2, &ghost3, &ghost4, &ghost5);
 }
 
 
