@@ -118,15 +118,16 @@ void ghostRandomlocation(int map[ROWS][COLS], Ghost *ptr) {
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+
 // pacman movement
 void MovePacman(Pacman *pacman) {
     int nextX = pacman->x / TILE_SIZE + pacman->dx;
     int nextY = pacman->y / TILE_SIZE + pacman->dy;
 
-    // بررسی اینکه مختصات بعدی خارج از محدوده نقشه نباشد
+
     if (nextX >= 0 && nextX < COLS && nextY >= 0 && nextY < ROWS) {
         if (Map[nextY][nextX] != 1) {
-            // بررسی دیوار
+
             pacman->x += pacman->dx * TILE_SIZE;
             pacman->y += pacman->dy * TILE_SIZE;
         }
@@ -160,7 +161,7 @@ void InitGameplayScreen(void) {
     ghost15 = LoadTexture("../assets/sprites/ghosts/blue/blue3.png");
     //-----------------------------------------------------------------------------------------------
     //initializing pacman
-    Pacman pacman;
+
     pacmanRandomlocation(Map, &pacman);
     pacman.dx = 0;
     pacman.dy = 0;
@@ -168,23 +169,23 @@ void InitGameplayScreen(void) {
     pacman.isMouthOpen = true;
     pacman.frameCounter = 0;
     // initializing ghosts
-    Ghost ghost1;
+
     ghostRandomlocation(Map, &ghost1);
     ghost1.dx = 0;
     ghost1.dy = 0;
-    Ghost ghost2;
+
     ghostRandomlocation(Map, &ghost2);
     ghost2.dx = 0;
     ghost2.dy = 0;
-    Ghost ghost3;
+
     ghostRandomlocation(Map, &ghost3);
     ghost3.dx = 0;
     ghost3.dy = 0;
-    Ghost ghost4;
+
     ghostRandomlocation(Map, &ghost4);
     ghost4.dx = 0;
     ghost4.dy = 0;
-    Ghost ghost5;
+
     ghostRandomlocation(Map, &ghost5);
     ghost5.dx = 0;
     ghost5.dy = 0;
@@ -233,15 +234,15 @@ void DrawGameplayScreen(void) {
     //---------------------------------------------------------------------------------
     // drawing characters
     if (pacman.isMouthOpen) {
-        DrawTexture(pacmanOpen, pacman.x, pacman.y,WHITE);
+        DrawTexture(pacmanOpen, pacman.x * TILE_SIZE, pacman.y*TILE_SIZE,WHITE);
     } else {
-        DrawTexture(pacmanClose, pacman.x, pacman.y,WHITE);
+        DrawTexture(pacmanClose, pacman.x*TILE_SIZE, pacman.y*TILE_SIZE,WHITE);
     }
-    DrawTexture(ghost11, ghost1.x, ghost1.y,WHITE);
-    DrawTexture(ghost12, ghost2.x, ghost2.y,WHITE);
-    DrawTexture(ghost13, ghost3.x, ghost3.y,WHITE);
-    DrawTexture(ghost14, ghost4.x, ghost4.y,WHITE);
-    DrawTexture(ghost15, ghost5.x, ghost5.y,WHITE);
+    DrawTexture(ghost11, ghost1.x*TILE_SIZE, ghost1.y*TILE_SIZE,WHITE);
+    DrawTexture(ghost12, ghost2.x*TILE_SIZE, ghost2.y*TILE_SIZE,WHITE);
+    DrawTexture(ghost13, ghost3.x*TILE_SIZE, ghost3.y*TILE_SIZE,WHITE);
+    DrawTexture(ghost14, ghost4.x*TILE_SIZE, ghost4.y*TILE_SIZE,WHITE);
+    DrawTexture(ghost15, ghost5.x*TILE_SIZE, ghost5.y*TILE_SIZE,WHITE);
 }
 
 static void UpdatePlayer(void) {
