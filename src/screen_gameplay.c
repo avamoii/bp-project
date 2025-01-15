@@ -15,6 +15,8 @@ time_t cherryTimeStart;
 bool isPepperEaten = false;
 time_t pepperTimeStart;
 int remainingFoods = 10;
+time_t lastCollisionTime = 0;
+
 //==========================================================================
 bool isGameOver;
 Texture2D cherry;
@@ -54,6 +56,7 @@ typedef struct {
 
 Pacman pacman;
 Ghost ghost1, ghost2, ghost3, ghost4, ghost5;
+
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
@@ -175,7 +178,7 @@ void MoveGhost(Ghost *ghost, int map[ROWS][COLS]) {
             }
         }
 
-        ghost->frameCounter = 0;  // بازنشانی شمارنده
+        ghost->frameCounter = 0;
     }
 }
 
@@ -221,26 +224,27 @@ void checkFoods(Pacman *pacman)
 void updateCherryMode(Pacman *pacman) {
     if (isCherryEaten) {
         time_t currentTime = time(NULL);
-        if (difftime(currentTime, cherryTimeStart) >= 10) { // بررسی گذشت زمان 10 ثانیه
-            isCherryEaten = false;  // پایان حالت گیلاس
-            pacman->isMouthOpen = false; // دهان بسته شود
+        if (difftime(currentTime, cherryTimeStart) >= 10) {
+            isCherryEaten = false;  //
+            pacman->isMouthOpen = false; //
         } else {
-            pacman->isMouthOpen = true; // دهان باز بماند
+            pacman->isMouthOpen = true; //
         }
     }
 }
 void updatePepperMode(Pacman *pacman) {
     if (isPepperEaten) {
         time_t currentTime = time(NULL);
-        if (difftime(currentTime, pepperTimeStart) >= 10) { // بررسی زمان
-            isPepperEaten = false; // پایان حالت فلفل
-            pacman->speed--;       // بازگشت به سرعت اولیه
+        if (difftime(currentTime, pepperTimeStart) >= 10) {
+            isPepperEaten = false;
+            pacman->speed--;
         }
     }
 }
 //================================================================================================
 void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3, Ghost *ghost4, Ghost *ghost5)
 {
+    time_t currentTime = time(NULL);
     if (isCherryEaten) {
 
         if (ghost1->isVisible && ghost1->x == pacman->x && ghost1->y == pacman->y) {
@@ -264,14 +268,16 @@ void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3,
             pacman->score += 50;
         }
     } else {
-        if ((pacman->x == ghost1->x && pacman->y == ghost1->y && ghost1->isVisible) ||
-        (pacman->x == ghost2->x && pacman->y == ghost2->y && ghost2->isVisible) ||
-        (pacman->x == ghost3->x && pacman->y == ghost3->y && ghost3->isVisible) ||
-        (pacman->x == ghost4->x && pacman->y == ghost4->y && ghost4->isVisible) ||
-        (pacman->x == ghost5->x && pacman->y == ghost5->y && ghost5->isVisible))
-        {
-            pacman->lives--;
-        }
+        if (difftime(currentTime, lastCollisionTime) >= 1) {
+            if ((pacman->x == ghost1->x && pacman->y == ghost1->y && ghost1->isVisible) ||
+                (pacman->x == ghost2->x && pacman->y == ghost2->y && ghost2->isVisible) ||
+                (pacman->x == ghost3->x && pacman->y == ghost3->y && ghost3->isVisible) ||
+                (pacman->x == ghost4->x && pacman->y == ghost4->y && ghost4->isVisible) ||
+                (pacman->x == ghost5->x && pacman->y == ghost5->y && ghost5->isVisible)) {
+
+                pacman->lives--;
+                lastCollisionTime = currentTime;
+                }
 
             ghost1->isVisible = true;
             ghost2->isVisible = true;
@@ -280,6 +286,7 @@ void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3,
             ghost5->isVisible = true;
         }
     }
+}
 
 
 void checkGameOver(Pacman *pacman) {
@@ -327,6 +334,7 @@ void InitGameplayScreen(void) {
     ghostRandomlocation(Map, &ghost1);
     ghost1.dx = 0;
     ghost1.dy = 0;
+
 
     ghostRandomlocation(Map, &ghost2);
     ghost2.dx = 0;
