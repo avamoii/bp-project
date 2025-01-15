@@ -15,6 +15,7 @@ time_t cherryTimeStart;
 bool isPepperEaten = false; //
 time_t pepperTimeStart;
 //==========================================================================
+bool isGameOver;
 Texture2D cherry;
 Texture2D apple;
 Texture2D pepper;
@@ -230,9 +231,10 @@ void updatePepperMode(Pacman *pacman) {
     }
 }
 //================================================================================================
-void updateGhostsVisibilityForCherryMode(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3, Ghost *ghost4, Ghost *ghost5) {
+void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3, Ghost *ghost4, Ghost *ghost5)
+{
     if (isCherryEaten) {
-        // بررسی برخورد پک‌من با هر یک از روح‌ها
+
         if (ghost1->isVisible && ghost1->x == pacman->x && ghost1->y == pacman->y) {
             ghost1->isVisible = false;
             pacman->score += 50;
@@ -254,18 +256,29 @@ void updateGhostsVisibilityForCherryMode(Pacman *pacman, Ghost *ghost1, Ghost *g
             pacman->score += 50;
         }
     } else {
+        if ((pacman->x == ghost1->x && pacman->y == ghost1->y && ghost1->isVisible) ||
+        (pacman->x == ghost2->x && pacman->y == ghost2->y && ghost2->isVisible) ||
+        (pacman->x == ghost3->x && pacman->y == ghost3->y && ghost3->isVisible) ||
+        (pacman->x == ghost4->x && pacman->y == ghost4->y && ghost4->isVisible) ||
+        (pacman->x == ghost5->x && pacman->y == ghost5->y && ghost5->isVisible))
+        {
+            pacman->lives--;
+        }
 
-        ghost1->isVisible = true;
-        ghost2->isVisible = true;
-        ghost3->isVisible = true;
-        ghost4->isVisible = true;
-        ghost5->isVisible = true;
+            ghost1->isVisible = true;
+            ghost2->isVisible = true;
+            ghost3->isVisible = true;
+            ghost4->isVisible = true;
+            ghost5->isVisible = true;
+        }
+    }
+
+
+void checkGameOver(Pacman *pacman) {
+    if (pacman->lives <= 0) {
+        isGameOver = true;
     }
 }
-
-
-
-
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -413,24 +426,42 @@ static void UpdatePlayer(void) {
     MovePacman(&pacman);
 }
 
-void UpdateGameplayScreen(void) {
-    UpdatePlayer();
-    MoveGhost(&ghost1, Map);
-    MoveGhost(&ghost2, Map);
-    MoveGhost(&ghost3, Map);
-    MoveGhost(&ghost4, Map);
-    MoveGhost(&ghost5, Map);
-    checkFoods(&pacman);
-    updateCherryMode(&pacman);
-    updatePepperMode(&pacman);
-    updateGhostsVisibilityForCherryMode(&pacman, &ghost1, &ghost2, &ghost3, &ghost4, &ghost5);
+void UpdateGameplayScreen(void)
+{
+    if(!isCherryEaten) {
+        UpdatePlayer();
+        MoveGhost(&ghost1, Map);
+        MoveGhost(&ghost2, Map);
+        MoveGhost(&ghost3, Map);
+        MoveGhost(&ghost4, Map);
+        MoveGhost(&ghost5, Map);
+        checkFoods(&pacman);
+        updateCherryMode(&pacman);
+        updatePepperMode(&pacman);
+        logicOfTheGame(&pacman, &ghost1, &ghost2, &ghost3, &ghost4, &ghost5);
+        checkGameOver(&pacman);
+
+    }
 }
 
 
 void UnloadGameplayScreen(void) {
-    // آزادسازی منابع در صورت نیاز
+    UnloadTexture(pacmanOpen);
+    UnloadTexture(pacmanClose);
+    UnloadTexture(ghost11);
+    UnloadTexture(ghost12);
+    UnloadTexture(ghost13);
+    UnloadTexture(ghost14);
+    UnloadTexture(ghost15);
+    // UnloadSound(eatSound);
+    // UnloadSound(ghostEatenSound);
 }
 
 bool FinishGameplayScreen(void) {
-    return false; // منطق اتمام بازی را اضافه کنید
+
+    if(IsKeyPressed(KEY_ESCAPE))
+    {
+        return true;
+    }
+    return isGameOver;
 }
