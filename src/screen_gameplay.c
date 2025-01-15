@@ -80,8 +80,8 @@ void InitGameplayScreen(void) {
     mushroom=LoadTexture("../assets/items/mushroom.png");//5
     pepper=LoadTexture("../assets/items/pepper.png");//6
     //----------------------------------------------------------------------------------------------
-    pacmanOpen = LoadTexture("../pac/pacWide.png");
-    pacmanClose = LoadTexture("../pac/pacClosed.png");
+    pacmanOpen = LoadTexture("C:/Users/Aras Computer/Desktop/bp/items/sprites/pac/pacWide2.png");
+    pacmanClose = LoadTexture("C:/Users/Aras Computer/Desktop/bp/items/sprites/pac/pacClosed.png");
 
 
     float timer = 0.0f;
@@ -132,7 +132,7 @@ void DrawGameplayScreen(void) {
             if (Map[y][x] == 1) {
                 DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, myColor2);
             }
-            else if (Map[y][x] == 0 || Map[y][x] == 2)
+            else if (Map[y][x] != 1 && Map[y][x] != 9)
             {
                 DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, myColor1);
             }
@@ -158,7 +158,7 @@ void DrawGameplayScreen(void) {
             }
             if (Map[y][x] == 6)
             {
-                DrawTextureEx(pepper,pos,0.0f,2.0f, WHITE);
+                DrawTextureEx(pepper,pos,0.0f,1.8f, WHITE);
             }
 
         }
