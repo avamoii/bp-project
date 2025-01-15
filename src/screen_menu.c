@@ -58,7 +58,7 @@ void UnloadMenuScreen(void) {
 }
 
 // Logo Screen should finish?
-int FinishMenuScreen(void)
+int  FinishMenuScreen(void)
 {
     return finalOption;
 }

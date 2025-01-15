@@ -36,7 +36,8 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 //----------------------------------------------------------------------------------
 // Main entry point
 //----------------------------------------------------------------------------------
-int main() {
+int main()
+{
     InitWindow(screenWidth, screenHeight, "PacMan Game - Ava");
 
     // Set window to full screen mode
@@ -54,16 +55,45 @@ int main() {
     // Texture2D background = LoadTexture("../tools/background4.jpg");
 
     // Main game loop
-    while (!WindowShouldClose()) UpdateDrawFrame();
+    // Main game loop
+    while (!WindowShouldClose()) {
+        switch (currentScreen) {
+        case MENU:
+            UpdateMenuScreen();
+            if (FinishMenuScreen()) ChangeToScreen(GAMEPLAY);
+            break;
+        case GAMEPLAY:
+            UpdateGameplayScreen();
+            if (FinishGameplayScreen()) ChangeToScreen(SCORE);
+            break;
+        case SCORE:
+            UpdateScoreScreen();
+            if (FinishScoreScreen()) ChangeToScreen(MENU);
+            break;
+        case ENDING:
+            UpdateEndingScreen();
+            if (FinishEndingScreen()) ChangeToScreen(MENU);
+            break;
+        default:
+            break;
+        }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    // UnloadTexture(background);
-    // CloseAudioDevice();         // Close audio device
-    CloseWindow();              // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        switch (currentScreen) {
+        case MENU: DrawMenuScreen(); break;
+        case GAMEPLAY: DrawGameplayScreen(); break;
+        case SCORE: DrawScoreScreen(); break;
+        case ENDING: DrawEndingScreen(); break;
+        default: break;
+        }
+
+        EndDrawing();
+    }
     return 0;
 }
+
 
 //----------------------------------------------------------------------------------
 // Module Functions Definition (local)
@@ -158,20 +188,6 @@ void UpdateDrawFrame(void)
             {
                 UpdateScoreScreen();
 
-                // NOTE: FinishTitleScreen() return an int defining the screen to jump to
-                // if (FinishScoreScreen() == 1)
-                // {
-                //     UnloadTitleScreen();
-                //     //currentScreen = OPTIONS;
-                //     //InitOptionsScreen();
-                // }
-                // else if (FinishTitleScreen() == 2)
-                // {
-                //     UnloadTitleScreen();
-                //
-                //     InitGameplayScreen();
-                //     TransitionToScreen(GAMEPLAY);
-                // }
             } break;
             case GAMEPLAY:
             {
@@ -224,3 +240,10 @@ void UpdateDrawFrame(void)
     EndDrawing();
     //----------------------------------------------------------------------------------
 }
+bool FinishScoreScreen(void) {
+    if (IsKeyPressed(KEY_ENTER)) {
+        return true;
+    }
+    return false;
+}
+

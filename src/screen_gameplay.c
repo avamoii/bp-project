@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include<stdbool.h>
 #include <time.h>
+#include "screen.h"
 
+static int finalScore = 0;
 #define ROWS 24
 #define COLS 32
 #define TILE_SIZE 25
@@ -291,6 +293,9 @@ void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3,
 
 void checkGameOver(Pacman *pacman) {
     if (pacman->lives <= 0) {
+
+        AddRecord(pacman->score);
+
         isGameOver = true;
     }
 }
@@ -474,9 +479,11 @@ void UnloadGameplayScreen(void) {
 }
 
 bool FinishGameplayScreen(void) {
-
     if(IsKeyPressed(KEY_ESCAPE))
     {
+
+        AddRecord(pacman.score);
+
         return true;
     }
     return isGameOver;
