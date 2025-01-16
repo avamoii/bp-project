@@ -23,6 +23,11 @@ void saveInformation() {
     // Open the file in append mode to add information without overwriting
     FILE *file = fopen("output.txt", "a");
 
+    printf("Name: %s\n", name1);
+    printf("Score: %d\n", score);
+    printf("%s\n", timeString);
+    printf("----------------------\n"); // Separator for readability
+
     // Check if the file opened successfully
     if (file == NULL) {
         perror("Error opening file");
@@ -32,7 +37,7 @@ void saveInformation() {
     // Write the information to the file
     fprintf(file, "Name: %s\n", name1);
     fprintf(file, "Score: %d\n", score);
-    fprintf(file, "%s", timeString);
+    fprintf(file, "%s\n", timeString);
     fprintf(file, "----------------------\n"); // Separator for readability
 
     // Close the file
