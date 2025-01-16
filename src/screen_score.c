@@ -69,9 +69,13 @@ void DrawScoreScreen(void) {
     DrawText("Press C to clear all records", 70, 550,25 ,DARKPURPLE);
 }
 
-
-
-
 void UnloadScoreScreen(void) {
     // آزادسازی منابع استفاده‌شده در صفحه امتیاز
+}
+bool FinishScoreScreen(void) {
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        return true;
+    }
+    return false;
 }

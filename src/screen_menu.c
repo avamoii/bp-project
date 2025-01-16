@@ -30,7 +30,7 @@ void UpdateMenuScreen(void)
     if (selectedOption > 2) selectedOption = 2;  // تعداد گزینه‌ها
     if (IsKeyPressed(KEY_ENTER)) {
         switch (selectedOption) {
-        case 0:finalOption = GAMEPLAY;
+        case 0:finalOption = NAME;
             break;
         case 1:finalOption = SCORE;
             break;

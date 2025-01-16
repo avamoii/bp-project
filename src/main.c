@@ -24,11 +24,9 @@ static int framesCounter = 0;
 // Module Functions Declaration (local)
 //----------------------------------------------------------------------------------
 static void ChangeToScreen(int screen);     // Change to screen, no transition effect
-
 static void TransitionToScreen(int screen); // Request transition to next screen
 static void UpdateTransition(void);         // Update transition effect
 static void DrawTransition(void);           // Draw transition effect (full-screen rectangle)
-
 static void UpdateDrawFrame(void);          // Update and draw one frame
 
 
@@ -51,47 +49,16 @@ int main()
     // NOTE: currentScreen is defined in screens.h as a global variable
     currentScreen = MENU;
     InitMenuScreen();
-
     // Texture2D background = LoadTexture("../tools/background4.jpg");
 
     // Main game loop
     // Main game loop
-    while (!WindowShouldClose()) {
-        switch (currentScreen) {
-        case MENU:
-            UpdateMenuScreen();
-            if (FinishMenuScreen()) ChangeToScreen(GAMEPLAY);
-            break;
-        case GAMEPLAY:
-            UpdateGameplayScreen();
-            if (FinishGameplayScreen()) ChangeToScreen(SCORE);
-            break;
-        case SCORE:
-            UpdateScoreScreen();
-            if (FinishScoreScreen()) ChangeToScreen(MENU);
-            break;
-        case ENDING:
-            UpdateEndingScreen();
-            if (FinishEndingScreen()) ChangeToScreen(MENU);
-            break;
-        default:
-            break;
-        }
-
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-
-        switch (currentScreen) {
-        case MENU: DrawMenuScreen(); break;
-        case GAMEPLAY: DrawGameplayScreen(); break;
-        case SCORE: DrawScoreScreen(); break;
-        case ENDING: DrawEndingScreen(); break;
-        default: break;
-        }
-
-        EndDrawing();
+    while (!WindowShouldClose())
+    {
+        UpdateDrawFrame();
     }
     return 0;
+
 }
 
 
@@ -104,6 +71,7 @@ static void ChangeToScreen(int screen)
     switch (currentScreen)
     {
     case MENU: UnloadMenuScreen(); break;
+    case NAME: UnloadnamePageScreen(); break;
     case SCORE: UnloadScoreScreen(); break;
     case ENDING: UnloadEndingScreen(); break;
     case GAMEPLAY: UnloadGameplayScreen(); break;
@@ -113,6 +81,7 @@ static void ChangeToScreen(int screen)
     switch (screen)
     {
     case MENU: InitMenuScreen(); break;
+    case NAME: InitnamePageScreen(); break;
     case SCORE: InitScoreScreen(); break;
     case ENDING: InitEndingScreen(); break;
     case GAMEPLAY: InitGameplayScreen(); break;
@@ -169,51 +138,35 @@ static void DrawTransition(void)
 // Update and draw one frame
 void UpdateDrawFrame(void)
 {
+
     // Update
     //----------------------------------------------------------------------------------
     if (!onTransition)
     {
-        switch (currentScreen)
-        {
-            case MENU:
-            {
-                UpdateMenuScreen();
-
-                if (FinishMenuScreen() != MENU) {
-                    ChangeToScreen(FinishMenuScreen());
-                }
-
-            } break;
-            case SCORE:
-            {
-                UpdateScoreScreen();
-
-            } break;
-            case GAMEPLAY:
-            {
-                UpdateGameplayScreen();
-
-                if (FinishGameplayScreen())
-                {
-                    UnloadGameplayScreen();
-
-                    InitEndingScreen();
-                    TransitionToScreen(ENDING);
-                }
-            } break;
-            case ENDING:
-            {
-                UpdateEndingScreen();
-
-                if (FinishEndingScreen())
-                {
-                    UnloadEndingScreen();
-
-                    InitGameplayScreen();
-                    TransitionToScreen(GAMEPLAY);
-                }
-            } break;
-            default: break;
+        switch (currentScreen) {
+        case MENU:
+            UpdateMenuScreen();
+            int nextScreen = FinishMenuScreen();
+            if (nextScreen != MENU) ChangeToScreen(nextScreen);
+            break;
+        case NAME:
+            UpdatenamePageScreen();
+            if (FinishnamePageScreen()) ChangeToScreen(GAMEPLAY);
+            break;
+        case GAMEPLAY:
+            UpdateGameplayScreen();
+            if (FinishGameplayScreen()) ChangeToScreen(SCORE);
+            break;
+        case SCORE:
+            UpdateScoreScreen();
+            if (FinishScoreScreen()) ChangeToScreen(MENU);
+            break;
+        case ENDING:
+            UpdateEndingScreen();
+            if (FinishEndingScreen()) ChangeToScreen(MENU);
+            break;
+        default:
+            break;
         }
     }
     else UpdateTransition();
@@ -224,26 +177,18 @@ void UpdateDrawFrame(void)
     // Draw
     //----------------------------------------------------------------------------------
     BeginDrawing();
-
-        ClearBackground(WHITE);
-
-        switch (currentScreen)
-        {
-            case MENU: DrawMenuScreen(); break;
-            case SCORE: DrawScoreScreen(); break;
-            case GAMEPLAY: DrawGameplayScreen(); break;
-            case ENDING: DrawEndingScreen(); break;
-            default: break;
-        }
-
+    ClearBackground(WHITE);
+    switch (currentScreen) {
+    case MENU: DrawMenuScreen(); break;
+    case NAME: DrawnamePageScreen(); break;
+    case GAMEPLAY: DrawGameplayScreen(); break;
+    case SCORE: DrawScoreScreen(); break;
+    case ENDING: DrawEndingScreen(); break;
+    default: break;
+    }
         if (onTransition) DrawTransition();
     EndDrawing();
     //----------------------------------------------------------------------------------
 }
-bool FinishScoreScreen(void) {
-    if (IsKeyPressed(KEY_ENTER)) {
-        return true;
-    }
-    return false;
-}
+
 

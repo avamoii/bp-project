@@ -4,7 +4,7 @@
 #define SCREEN_H
 #include<time.h>
 
-typedef enum GameScreen { MENU, SCORE, GAMEPLAY, ENDING } GameScreen;
+typedef enum GameScreen { MENU, SCORE, GAMEPLAY, ENDING, NAME } GameScreen;
 void AddRecord(int score);
 #define MAX_NAME_LENGTH 50
 #define MAX_RECORDS 10
@@ -23,6 +23,12 @@ typedef struct {
 // void DrawLogoScreen(void);
 // void UnloadLogoScreen(void);
 // int FinishLogoScreen(void);
+// توابع صفحه NAME
+void InitnamePageScreen(void);
+void UpdatenamePageScreen(void);
+void DrawnamePageScreen(void);
+void UnloadnamePageScreen(void);
+bool FinishnamePageScreen(void);
 
 //----------------------------------------------------------------------------------
 // Menu Screen Functions Declaration

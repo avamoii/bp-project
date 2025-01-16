@@ -42,6 +42,7 @@ add_executable(bp src/main.c
         src/screen_gameplay.c
         src/screen_score.c
         src/screen_ending.c
+        src/screen_name.c
 )
 
 # set the include directory
