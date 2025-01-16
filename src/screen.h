@@ -6,11 +6,11 @@
 
 typedef enum GameScreen { MENU, SCORE, GAMEPLAY, ENDING, NAME } GameScreen;
 void AddRecord(int score);
-#define MAX_NAME_LENGTH 50
+
 #define MAX_RECORDS 10
 
 typedef struct {
-    char playerName[MAX_NAME_LENGTH];
+
     int score;
     time_t time;
 } ScoreRecord;

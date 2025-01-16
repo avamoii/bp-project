@@ -5,7 +5,8 @@
 #include "screen.h"
 #define MAX_RECORDS 10
 //Texture2D background;
-#define MAX_NAME_LENGTH 50
+
+
 int recordCount =0;
 ScoreRecord records[MAX_RECORDS];
 

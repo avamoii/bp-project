@@ -2,50 +2,92 @@
 #include "screen.h"
 #include <string.h>
 
-static char playerName[50] = "";  // نام بازیکن
-static int charIndex = 0;         // اندیس کاراکتر
-static bool nameEntered = false;  // بررسی ورود نام
+#define MAX_INPUT_CHARS 15
 
-// مقداردهی اولیه صفحه
+int framesCounter = 0;
+char name[MAX_INPUT_CHARS + 1] = "\0";
+int letterCount = 0;
+Rectangle textBox = { 960/2.0f - 100, 180, 225, 50 };
+bool mouseOnText = false;
+static bool nameEntered = false;
+
+bool IsAnyKeyPressed()
+{
+    bool keyPressed = false;
+    int key = GetKeyPressed();
+
+    if ((key >= 32) && (key <= 126)) keyPressed = true;
+
+    return keyPressed;
+}
 void InitnamePageScreen(void) {
-    memset(playerName, 0, sizeof(playerName));
-    charIndex = 0;
+
     nameEntered = false;
 }
 
 // بروزرسانی صفحه
-void UpdatenamePageScreen(void) {
-    int key = GetKeyPressed();
+void UpdatenamePageScreen(void)
+{
+    if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
+    else mouseOnText = false;
 
-    // اضافه کردن کاراکتر به نام
-    if (key >= 32 && key <= 126 && charIndex < (sizeof(playerName) - 1)) {
-        playerName[charIndex++] = (char)key;
-        playerName[charIndex] = '\0';
+    if (mouseOnText)
+    {
+        // Set the window's cursor to the I-Beam
+        SetMouseCursor(MOUSE_CURSOR_IBEAM);
+
+        // Get char pressed (unicode character) on the queue
+        int key = GetCharPressed();
+
+        // Check if more characters have been pressed on the same frame
+        while (key > 0)
+        {
+            // NOTE: Only allow keys in range [32..125]
+            if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
+            {
+                name[letterCount] = (char)key;
+                name[letterCount+1] = '\0'; // Add null terminator at the end of the string.
+                letterCount++;
+            }
+
+            key = GetCharPressed();  // Check next character in the queue
+        }
+
+        if (IsKeyPressed(KEY_BACKSPACE))
+        {
+            letterCount--;
+            if (letterCount < 0) letterCount = 0;
+            name[letterCount] = '\0';
+        }
     }
+    else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 
-    // حذف کاراکتر
-    if (IsKeyPressed(KEY_BACKSPACE) && charIndex > 0) {
-        playerName[--charIndex] = '\0';
-    }
+    if (mouseOnText) framesCounter++;
+    else framesCounter = 0;
+    if(IsKeyPressed(KEY_ENTER)) nameEntered = true;
+}
+void DrawnamePageScreen(void)
+{
+    DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, GRAY);
 
-    // پایان صفحه با زدن اینتر
-    if (IsKeyPressed(KEY_ENTER) && charIndex > 0) {
-        nameEntered = true;
+    DrawRectangleRec(textBox, LIGHTGRAY);
+    if (mouseOnText) DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, RED);
+    else DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, DARKGRAY);
+
+    DrawText(name, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
+
+    DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, MAX_INPUT_CHARS), 315, 250, 20, DARKGRAY);
+
+    if (mouseOnText)
+    {
+        if (letterCount < MAX_INPUT_CHARS)
+        {
+            // Draw blinking underscore char
+            if (((framesCounter/20)%2) == 0) DrawText("_", (int)textBox.x + 8 + MeasureText(name, 40), (int)textBox.y + 12, 40, MAROON);
+        }
+        else DrawText("Press BACKSPACE to delete chars...", 230, 300, 20, GRAY);
     }
 }
-
-// رسم صفحه
-void DrawnamePageScreen(void) {
-    ClearBackground(DARKGRAY);
-
-    DrawText("Enter Your Name:", 300, 200, 30, WHITE);
-    DrawRectangle(300, 250, 360, 50, LIGHTGRAY);
-    DrawText(playerName, 310, 260, 30, BLACK);
-
-    DrawText("Press ENTER to continue", 300, 320, 20, GRAY);
-}
-
-// آزادسازی منابع
 void UnloadnamePageScreen(void) {
     // اگر منبعی نیاز به آزادسازی دارد اینجا انجام دهید
 }
