@@ -64,7 +64,12 @@ void UpdatenamePageScreen(void)
 
     if (mouseOnText) framesCounter++;
     else framesCounter = 0;
-    if(IsKeyPressed(KEY_ENTER)) nameEntered = true;
+
+    if(IsKeyPressed(KEY_ENTER))
+    {
+        AddName(name);
+        nameEntered = true;
+    }
 }
 void DrawnamePageScreen(void)
 {

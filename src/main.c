@@ -155,7 +155,7 @@ void UpdateDrawFrame(void)
             break;
         case GAMEPLAY:
             UpdateGameplayScreen();
-            if (FinishGameplayScreen()) ChangeToScreen(SCORE);
+            if (FinishGameplayScreen()) ChangeToScreen(ENDING);
             break;
         case SCORE:
             UpdateScoreScreen();

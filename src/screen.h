@@ -6,6 +6,7 @@
 
 typedef enum GameScreen { MENU, SCORE, GAMEPLAY, ENDING, NAME } GameScreen;
 void AddRecord(int score);
+void AddName(char *name);
 
 #define MAX_RECORDS 10
 
@@ -64,7 +65,7 @@ void InitEndingScreen(void);
 void UpdateEndingScreen(void);
 void DrawEndingScreen(void);
 void UnloadEndingScreen(void);
-int  FinishEndingScreen(void);
+bool FinishEndingScreen(void);
 //----------------------------------------------------------------------------------
 // Functions for inputs
 //----------------------------------------------------------------------------------
