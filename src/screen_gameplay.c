@@ -53,7 +53,6 @@ typedef struct {
     int dy;
     int frameCounter;
     bool isVisible;
-
 } Ghost;
 
 Pacman pacman;
@@ -139,13 +138,12 @@ void ghostRandomlocation(int map[ROWS][COLS], Ghost *ptr) {
 
 // pacman movement
 void MovePacman(Pacman *pacman) {
-    int nextX = (pacman->x  + pacman->dx) ;
-    int nextY = (pacman->y  + pacman->dy);
+    int nextX = (pacman->x + pacman->dx);
+    int nextY = (pacman->y + pacman->dy);
 
 
     if (nextX >= 0 && nextX < COLS && nextY >= 0 && nextY < ROWS) {
         if (Map[nextY][nextX] != 1) {
-
             pacman->x += pacman->dx;
             pacman->y += pacman->dy;
         }
@@ -159,7 +157,6 @@ void MoveGhost(Ghost *ghost, int map[ROWS][COLS]) {
 
 
     if (ghost->frameCounter >= 17) {
-
         int directions[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
 
@@ -174,7 +171,6 @@ void MoveGhost(Ghost *ghost, int map[ROWS][COLS]) {
 
         if (nextX >= 0 && nextX < COLS && nextY >= 0 && nextY < ROWS) {
             if (map[nextY][nextX] != 1) {
-
                 ghost->x += newDx;
                 ghost->y += newDy;
             }
@@ -184,56 +180,46 @@ void MoveGhost(Ghost *ghost, int map[ROWS][COLS]) {
     }
 }
 
-void checkFoods(Pacman *pacman)
-{
-    if(Map[pacman->y][pacman->x] == 2)
-    {
+void checkFoods(Pacman *pacman) {
+    if (Map[pacman->y][pacman->x] == 2) {
         pacman->score += 10;
         Map[pacman->y][pacman->x] = 0;
         remainingFoods--;
-        if (remainingFoods == 0)
-        {
+        if (remainingFoods == 0) {
             remainingFoods = 10;
             placeRandomFoods(10, 2);
         }
-    }
-
-    else if (Map[pacman->y][pacman->x] == 3)
-    {
+    } else if (Map[pacman->y][pacman->x] == 3) {
         isCherryEaten = true;
         cherryTimeStart = time(NULL);
         Map[pacman->y][pacman->x] = 0;
         pacman->isMouthOpen = true;
-    }
-    else if (Map[pacman->y][pacman->x] == 4)
-    {
+    } else if (Map[pacman->y][pacman->x] == 4) {
         pacman->lives++;
         Map[pacman->y][pacman->x] = 0;
-    }
-    else if (Map[pacman->y][pacman->x] == 5)
-    {
+    } else if (Map[pacman->y][pacman->x] == 5) {
         pacman->lives--;
         Map[pacman->y][pacman->x] = 0;
-    }
-    else if (Map[pacman->y][pacman->x] == 6)
-    {
+    } else if (Map[pacman->y][pacman->x] == 6) {
         pacman->speed++;
         Map[pacman->y][pacman->x] = 0;
         isPepperEaten = true;
         pepperTimeStart = time(NULL);
     }
 }
+
 void updateCherryMode(Pacman *pacman) {
     if (isCherryEaten) {
         time_t currentTime = time(NULL);
         if (difftime(currentTime, cherryTimeStart) >= 10) {
-            isCherryEaten = false;  //
+            isCherryEaten = false; //
             pacman->isMouthOpen = false; //
         } else {
             pacman->isMouthOpen = true; //
         }
     }
 }
+
 void updatePepperMode(Pacman *pacman) {
     if (isPepperEaten) {
         time_t currentTime = time(NULL);
@@ -243,12 +229,11 @@ void updatePepperMode(Pacman *pacman) {
         }
     }
 }
+
 //================================================================================================
-void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3, Ghost *ghost4, Ghost *ghost5)
-{
+void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3, Ghost *ghost4, Ghost *ghost5) {
     time_t currentTime = time(NULL);
     if (isCherryEaten) {
-
         if (ghost1->isVisible && ghost1->x == pacman->x && ghost1->y == pacman->y) {
             ghost1->isVisible = false;
             pacman->score += 50;
@@ -276,10 +261,9 @@ void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3,
                 (pacman->x == ghost3->x && pacman->y == ghost3->y && ghost3->isVisible) ||
                 (pacman->x == ghost4->x && pacman->y == ghost4->y && ghost4->isVisible) ||
                 (pacman->x == ghost5->x && pacman->y == ghost5->y && ghost5->isVisible)) {
-
                 pacman->lives--;
                 lastCollisionTime = currentTime;
-                }
+            }
 
             ghost1->isVisible = true;
             ghost2->isVisible = true;
@@ -293,7 +277,6 @@ void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3,
 
 void checkGameOver(Pacman *pacman) {
     if (pacman->lives <= 0) {
-
         AddRecord(pacman->score);
 
         isGameOver = true;
@@ -333,7 +316,7 @@ void InitGameplayScreen(void) {
     pacman.isMouthOpen = true;
     pacman.frameCounter = 0;
     pacman.score = 0;
-    pacman.speed =0;
+    pacman.speed = 0;
     // initializing ghosts
 
     ghostRandomlocation(Map, &ghost1);
@@ -401,9 +384,9 @@ void DrawGameplayScreen(void) {
     //---------------------------------------------------------------------------------
     // drawing characters
     if (!pacman.isMouthOpen) {
-        DrawTexture(pacmanOpen, pacman.x * TILE_SIZE, pacman.y*TILE_SIZE,WHITE);
+        DrawTexture(pacmanOpen, pacman.x * TILE_SIZE, pacman.y * TILE_SIZE,WHITE);
     } else {
-        DrawTexture(pacmanClose, pacman.x*TILE_SIZE, pacman.y*TILE_SIZE,WHITE);
+        DrawTexture(pacmanClose, pacman.x * TILE_SIZE, pacman.y * TILE_SIZE,WHITE);
     }
     if (ghost1.isVisible) {
         DrawTexture(ghost11, ghost1.x * TILE_SIZE, ghost1.y * TILE_SIZE, WHITE);
@@ -447,9 +430,8 @@ static void UpdatePlayer(void) {
     MovePacman(&pacman);
 }
 
-void UpdateGameplayScreen(void)
-{
-    if(!isGameOver) {
+void UpdateGameplayScreen(void) {
+    if (!isGameOver) {
         UpdatePlayer();
         MoveGhost(&ghost1, Map);
         MoveGhost(&ghost2, Map);
@@ -461,7 +443,6 @@ void UpdateGameplayScreen(void)
         updatePepperMode(&pacman);
         logicOfTheGame(&pacman, &ghost1, &ghost2, &ghost3, &ghost4, &ghost5);
         checkGameOver(&pacman);
-
     }
 }
 
@@ -479,11 +460,8 @@ void UnloadGameplayScreen(void) {
 }
 
 bool FinishGameplayScreen(void) {
-    if(IsKeyPressed(KEY_ESCAPE))
-    {
-
+    if (IsKeyPressed(KEY_ESCAPE)) {
         AddRecord(pacman.score);
-
         return true;
     }
     return isGameOver;
