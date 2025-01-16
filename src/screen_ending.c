@@ -8,14 +8,32 @@
 #define MAX_RECORDS 10
 
 //Texture2D background;
+void saveInformation() {
+    // Open the file in append mode to add information without overwriting
+    FILE *file = fopen("output.txt", "a");
+
+    // Check if the file opened successfully
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    // Write the information to the file
+    fprintf(file, "Name: %s\n", name);
+    fprintf(file, "Score: %d\n", score);
+    fprintf(file, "Time: %.2f seconds\n", time);
+    fprintf(file, "Data: %s\n", data);
+    fprintf(file, "----------------------\n"); // Separator for readability
+
+    // Close the file
+    fclose(file);
+}
 
 char name1 [15];
 void AddName(char *name)
 {
     strcpy(name1, name);
 }
-
-
 int recordCount =0;
 ScoreRecord records[MAX_RECORDS];
 
@@ -49,6 +67,7 @@ void ClearRecords(void) {
 
 void InitEndingScreen(void) {
   //background = LoadTexture("../assets/background2.png");
+    struct tm *timeInfo = localtime(&records[i].time);
 }
 
 void UpdateEndingScreen(void) {
@@ -67,7 +86,7 @@ void DrawEndingScreen(void) {
 
     for (int i = 0; i < recordCount; i++) {
         char buffer[64];
-        struct tm *timeInfo = localtime(&records[i].time);
+
         strftime(buffer, sizeof(buffer), " %Y-%m-%d  %H:%M:%S ", timeInfo);
 
         char recordText[128];

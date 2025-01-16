@@ -11,7 +11,6 @@ void AddName(char *name);
 #define MAX_RECORDS 10
 
 typedef struct {
-
     int score;
     time_t time;
 } ScoreRecord;
