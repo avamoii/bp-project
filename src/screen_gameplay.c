@@ -8,9 +8,9 @@
 static int finalScore = 0;
 #define ROWS 24
 #define COLS 32
-#define TILE_SIZE 25
-#define mapWidth 800
-#define mapHeight 600
+#define TILE_SIZE 30
+#define mapWidth 960
+#define mapHeight 720
 //==========================================================================
 bool isCherryEaten = false;
 time_t cherryTimeStart;
@@ -364,7 +364,7 @@ void DrawGameplayScreen(void) {
                 DrawRectangle(posX, posY, TILE_SIZE,TILE_SIZE,BLACK);
             }
             if (Map[y][x] == 2) {
-                DrawCircle(posX + 12.5, posY + 12.5, 4, yellow);
+                DrawCircle(posX + 15, posY + 15, 8, yellow);
             }
             if (Map[y][x] == 3) {
                 DrawTextureEx(cherry, pos, 0.0f, 2.0f, WHITE);
@@ -380,6 +380,14 @@ void DrawGameplayScreen(void) {
             }
         }
     }
+
+    char scoreText[50];
+    char livesText[30];
+    sprintf(scoreText, "Your Score: %d", pacman.score);
+    DrawText(scoreText, 100, 690, 20, LIGHTGRAY);
+    sprintf(livesText, "Your Score: %d", pacman.score);
+    DrawText(scoreText, 100, 690, 20, LIGHTGRAY);
+
     //---------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------
     // drawing characters

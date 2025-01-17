@@ -44,11 +44,11 @@ void UpdateMenuScreen(void)
 // Menu Screen Draw logic
 void DrawMenuScreen(void) {
     ClearBackground(RAYWHITE);
-    DrawTextureEx(background, (Vector2){0, -200}, 0.0f, 1.1, WHITE);
-    DrawText("Ava-Nom-Nom", GetScreenHeight() / 2 - 150, 100, 80, WHITE);
-    DrawText("1. Start Game", 300, 200, 30, (selectedOption == 0) ? YELLOW : GRAY);
-    DrawText("2. Score", 300, 250, 30, (selectedOption == 1) ? YELLOW : GRAY);
-    DrawText("3. Exit", 300, 300, 30, (selectedOption == 2) ? YELLOW : GRAY);
+    DrawTextureEx(background, (Vector2){-40, -250}, 0.0f, 1.4, WHITE);
+    DrawText("< PAC-MAN >", 230, 100, 80, WHITE);
+    DrawText("1. Start Game", 380, 200, 35, (selectedOption == 0) ? YELLOW : GRAY);
+    DrawText("2. Score", 380, 250, 35, (selectedOption == 1) ? YELLOW : GRAY);
+    DrawText("3. Exit", 380, 300, 35, (selectedOption == 2) ? YELLOW : GRAY);
 }
 
 // Menu Screen Unload logic

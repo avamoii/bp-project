@@ -6,8 +6,8 @@
 // Shared Variables Definition (global)
 //----------------------------------------------------------------------------------
 GameScreen currentScreen = MENU;
-int screenWidth = 800;
-int screenHeight = 600;
+int screenWidth = 960;
+int screenHeight = 720;
 
 //----------------------------------------------------------------------------------
 // Module Variables Definition (local)
