@@ -13,11 +13,10 @@ typedef struct {
     time_t time;
 } ScoreRecord;
 
-int index = 0;
-ScoreRecord arr [MAX_RECORDS];
+int recordIndex = 0;
+ScoreRecord arr[MAX_RECORDS];
 
-void readInfo(void)
-{
+void readInfo(void) {
     // باز کردن فایل باینری برای خواندن اطلاعات
     FILE *file = fopen("output.bin", "rb");
 
@@ -27,7 +26,7 @@ void readInfo(void)
     }
 
 
-    while (!feof(file) && index < MAX_RECORDS) {
+    while (!feof(file) && recordIndex < MAX_RECORDS) {
         size_t nameLength, timeLength;
         char name[50], timeString[50];
         int score;
@@ -48,52 +47,42 @@ void readInfo(void)
         snprintf(displayText, sizeof(displayText), "Name: %s | Score: %d | Time: %s", name, score, timeString);
 
 
-        strcpy(arr[index].name ,name);
-        arr[index].score = score;
-        arr[index].time = time;
-        index++;
+        strcpy(arr[recordIndex].name, name);
+        arr[recordIndex].score = score;
+        // arr[recordIndex].time = time;
+        recordIndex++;
     }
 
     fclose(file);
 }
 
 
-
 void InitScoreScreen(void) {
-    index = 0;
+    recordIndex = 0;
     readInfo();
 }
 
 void UpdateScoreScreen(void) {
-    if(IsKeyPressed(KEY_ENTER))
-    {
+    if (IsKeyPressed(KEY_ENTER)) {
         IsScoreScreenFinished = true;
     }
 }
 
-void DrawScoreScreen(void)
-{
+void DrawScoreScreen(void) {
     ClearBackground(RAYWHITE);
 
-    for(int i=0;i<index;i++)
-    {
-
-
-        DrawText(arr[i].name,100,100 +i * 20,20,RED);
+    for (int i = 0; i < recordIndex; i++) {
+        DrawText(arr[i].name, 100, 100 + i * 20, 20,RED);
         //strftime(timeString, sizeof(timeString), " %Y-%m-%d  %H:%M:%S ", timeInfo);
-       // DrawText(recordText, 50, 120, 20, YELLOW);
+        // DrawText(recordText, 50, 120, 20, YELLOW);
         //char recordText[128];
-       // snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", score, timeString);
-
-
+        // snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", score, timeString);
     }
-
-
 }
+
 void UnloadScoreScreen(void) {
-
 }
-bool FinishScoreScreen(void) {
 
+bool FinishScoreScreen(void) {
     return IsScoreScreenFinished;
 }
