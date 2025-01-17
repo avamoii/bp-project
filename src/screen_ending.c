@@ -42,6 +42,31 @@ void saveInformation() {
 
     // Close the file
     fclose(file);
+    FILE *file1 = fopen("output.bin", "ab");
+
+    // بررسی موفقیت در باز کردن فایل
+    if (file1 == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    // نوشتن اطلاعات به فایل به صورت باینری
+    size_t nameLength = strlen(name1) + 1; // به همراه \0
+    size_t timeLength = strlen(timeString) + 1; // به همراه \0
+
+    // نوشتن نام
+    fwrite(&nameLength, sizeof(size_t), 1, file1); // طول نام
+    fwrite(name1, sizeof(char), nameLength, file1); // خود نام
+
+    // نوشتن امتیاز
+    fwrite(&score, sizeof(int), 1, file1);
+
+    // نوشتن زمان
+    fwrite(&timeLength, sizeof(size_t), 1, file1); // طول رشته زمان
+    fwrite(timeString, sizeof(char), timeLength, file1); // خود زمان
+
+    // بستن فایل
+    fclose(file1);
 }
 
 void InitEndingScreen(void) {
