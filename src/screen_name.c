@@ -7,7 +7,7 @@
 int framesCounter = 0;
 char name[MAX_INPUT_CHARS + 1] = "\0";
 int letterCount = 0;
-Rectangle textBox = { 960/2 - 200, 300, 400, 80 };
+Rectangle textBox = { 960/2 - 400, 300, 800, 80 };
 bool mouseOnText = false;
 static bool nameEntered = false;
 

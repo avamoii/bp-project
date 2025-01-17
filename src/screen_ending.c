@@ -5,7 +5,7 @@
 #include <string.h>
 #include "screen.h"
 
-char name1[15];
+char name1[30];
 int score;
 struct tm *timeInfo;
 bool isScreenFinished = false;

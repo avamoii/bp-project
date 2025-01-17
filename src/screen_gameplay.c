@@ -5,7 +5,7 @@
 #include <time.h>
 #include "screen.h"
 
-static int finalScore = 0;
+
 #define ROWS 24
 #define COLS 32
 #define TILE_SIZE 30
@@ -18,7 +18,7 @@ bool isPepperEaten = false;
 time_t pepperTimeStart;
 int remainingFoods = 10;
 time_t lastCollisionTime = 0;
-
+Music gameplayMusic;
 //==========================================================================
 bool isGameOver;
 Texture2D cherry;
@@ -188,6 +188,9 @@ void checkFoods(Pacman *pacman) {
         if (remainingFoods == 0) {
             remainingFoods = 10;
             placeRandomFoods(10, 2);
+
+
+
         }
     } else if (Map[pacman->y][pacman->x] == 3) {
         isCherryEaten = true;
@@ -340,6 +343,11 @@ void InitGameplayScreen(void) {
     ghostRandomlocation(Map, &ghost5);
     ghost5.dx = 0;
     ghost5.dy = 0;
+
+    InitAudioDevice();
+    gameplayMusic = LoadMusicStream("../tools/background.mp3");
+    PlayMusicStream(gameplayMusic);
+    SeekMusicStream(gameplayMusic, 2.0f);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -452,8 +460,14 @@ void UpdateGameplayScreen(void) {
         updatePepperMode(&pacman);
         logicOfTheGame(&pacman, &ghost1, &ghost2, &ghost3, &ghost4, &ghost5);
         checkGameOver(&pacman);
+        UpdateMusicStream(gameplayMusic);
+        if (GetMusicTimePlayed(gameplayMusic) >= GetMusicTimeLength(gameplayMusic)) {
+            SeekMusicStream(gameplayMusic, 5.0f); // بازگشت به ثانیه 5
+            PlayMusicStream(gameplayMusic);      // دوباره شروع پخش
+        }
     }
 }
+
 
 
 void UnloadGameplayScreen(void) {
@@ -464,8 +478,9 @@ void UnloadGameplayScreen(void) {
     UnloadTexture(ghost13);
     UnloadTexture(ghost14);
     UnloadTexture(ghost15);
-    // UnloadSound(eatSound);
-    // UnloadSound(ghostEatenSound);
+    StopMusicStream(gameplayMusic);
+    UnloadMusicStream(gameplayMusic);
+    CloseAudioDevice();
 }
 
 bool FinishGameplayScreen(void) {

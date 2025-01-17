@@ -9,7 +9,7 @@
 bool IsScoreScreenFinished = false;
 
 typedef struct {
-    char name[50];
+    char name[200];
     int score;
     char timeString[64];
 } ScoreRecord;
@@ -79,7 +79,7 @@ void DrawScoreScreen(void) {
 
 
     for (int i = 0; i < recordIndex; i++) {
-        char recordText[128];
+        char recordText[500];
         snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", records[i].score, records[i].timeString);
         DrawText(recordText, 250, 140+ i * 45, 25, myColor1);
         DrawText(records[i].name, 50, 140 + i * 45, 25,myColor1);
