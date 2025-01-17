@@ -19,7 +19,7 @@ ScoreRecord records[MAX_RECORDS];
 
 void readInfo(void) {
     printf("Start reading from file\n");
-    // باز کردن فایل باینری برای خواندن اطلاعات
+
     FILE *file = fopen("output.bin", "rb");
 
     if (file == NULL) {
@@ -35,14 +35,13 @@ void readInfo(void) {
         char name[50], timeString[64];
         int score;
 
-        // خواندن نام
+
         if (fread(&nameLength, sizeof(size_t), 1, file) != 1) break;
         if (fread(name, sizeof(char), nameLength, file) != nameLength) break;
 
-        // خواندن امتیاز
         if (fread(&score, sizeof(int), 1, file) != 1) break;
 
-        // خواندن زمان
+
         if (fread(&timeLength, sizeof(size_t), 1, file) != 1) break;
         if (fread(timeString, sizeof(char), timeLength, file) != timeLength) break;
 
@@ -73,13 +72,18 @@ void UpdateScoreScreen(void) {
 }
 
 void DrawScoreScreen(void) {
-    ClearBackground(BLACK);
+    Color myColor1 = (Color){0, 0, 90, 255};
+    Color myColor2 = (Color){173, 216, 230, 255};
+
+    ClearBackground(myColor2);
+
 
     for (int i = 0; i < recordIndex; i++) {
         char recordText[128];
         snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", records[i].score, records[i].timeString);
-        DrawText(recordText, 50, 120 + i * 40, 20, YELLOW);
-        DrawText(records[i].name, 50, 400 + i * 40, 20, YELLOW);
+        DrawText(recordText, 250, 140+ i * 45, 25, myColor1);
+        DrawText(records[i].name, 50, 140 + i * 45, 25,myColor1);
+        DrawText("< SCORE BOARD >", 200, 40, 64 ,DARKGRAY);
     }
 }
 

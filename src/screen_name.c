@@ -7,7 +7,7 @@
 int framesCounter = 0;
 char name[MAX_INPUT_CHARS + 1] = "\0";
 int letterCount = 0;
-Rectangle textBox = { 960/2.0f - 100, 180, 225, 50 };
+Rectangle textBox = { 960/2 - 200, 300, 400, 80 };
 bool mouseOnText = false;
 static bool nameEntered = false;
 
@@ -25,7 +25,7 @@ void InitnamePageScreen(void) {
     nameEntered = false;
 }
 
-// بروزرسانی صفحه
+
 void UpdatenamePageScreen(void)
 {
     if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
@@ -73,7 +73,7 @@ void UpdatenamePageScreen(void)
 }
 void DrawnamePageScreen(void)
 {
-    DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, GRAY);
+    DrawText("PLACE MOUSE OVER INPUT BOX!", 230, 250, 30, GRAY);
 
     DrawRectangleRec(textBox, LIGHTGRAY);
     if (mouseOnText) DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, RED);
@@ -81,7 +81,7 @@ void DrawnamePageScreen(void)
 
     DrawText(name, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
 
-    DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, MAX_INPUT_CHARS), 315, 250, 20, DARKGRAY);
+    DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, MAX_INPUT_CHARS), 360, 390, 20, DARKGRAY);
 
     if (mouseOnText)
     {
@@ -90,14 +90,14 @@ void DrawnamePageScreen(void)
             // Draw blinking underscore char
             if (((framesCounter/20)%2) == 0) DrawText("_", (int)textBox.x + 8 + MeasureText(name, 40), (int)textBox.y + 12, 40, MAROON);
         }
-        else DrawText("Press BACKSPACE to delete chars...", 230, 300, 20, GRAY);
+        else DrawText("Press BACKSPACE to delete chars...", 230, 440, 20, GRAY);
     }
 }
 void UnloadnamePageScreen(void) {
-    // اگر منبعی نیاز به آزادسازی دارد اینجا انجام دهید
+
 }
 
-// بررسی پایان صفحه
+
 bool FinishnamePageScreen(void) {
     return nameEntered;
 }

@@ -385,9 +385,9 @@ void DrawGameplayScreen(void) {
     char scoreText[50];
     char livesText[30];
     sprintf(scoreText, "Your Score: %d", pacman.score);
-    DrawText(scoreText, 100, 690, 20, LIGHTGRAY);
-    sprintf(livesText, "Your Score: %d", pacman.score);
-    DrawText(scoreText, 100, 690, 20, LIGHTGRAY);
+    DrawText(scoreText, 100, 690, 25, LIGHTGRAY);
+    sprintf(livesText, " lives remaining: %d", pacman.lives);
+    DrawText(livesText, 400, 690, 25, LIGHTGRAY);
 
     //---------------------------------------------------------------------------------
     //---------------------------------------------------------------------------------

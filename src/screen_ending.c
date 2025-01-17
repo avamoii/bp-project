@@ -82,17 +82,17 @@ void DrawEndingScreen(void) {
     ClearBackground(myColor1);
     //DrawTexture(background, 0, 0, WHITE);
 
-    DrawText("Ending Board", 200, 20, 70,LIGHTGRAY);
+    DrawText("< Ending Board >", 200, 30, 70,LIGHTGRAY);
 
     strftime(timeString, sizeof(timeString), "%Y-%m-%d  %H:%M:%S", timeInfo);
 
     char recordText[128];
     snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", score, timeString);
-    DrawText(recordText, 50, 120, 20, YELLOW);
-    DrawText(name1, 50, 400, 20, YELLOW);
+    DrawText(recordText, 50, 280, 30, YELLOW);
+    DrawText(name1, 50, 200, 40, YELLOW);
 
-    DrawText("Press ENTER to return", 70, 520, 25,DARKPURPLE);
-    DrawText("Press C to clear all records", 70, 550, 25,DARKPURPLE);
+    DrawText("Press ENTER to return", 70, 520, 30,GRAY);
+
 }
 
 void UnloadEndingScreen(void) {
