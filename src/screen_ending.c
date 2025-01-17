@@ -23,11 +23,6 @@ void saveInformation() {
     // Open the file in append mode to add information without overwriting
     FILE *file = fopen("output.txt", "a");
 
-    printf("Name: %s\n", name1);
-    printf("Score: %d\n", score);
-    printf("%s\n", timeString);
-    printf("----------------------\n"); // Separator for readability
-
     // Check if the file opened successfully
     if (file == NULL) {
         perror("Error opening file");
@@ -42,6 +37,7 @@ void saveInformation() {
 
     // Close the file
     fclose(file);
+
     FILE *file1 = fopen("output.bin", "ab");
 
     // بررسی موفقیت در باز کردن فایل
@@ -88,7 +84,7 @@ void DrawEndingScreen(void) {
 
     DrawText("Ending Board", 200, 20, 70,LIGHTGRAY);
 
-    strftime(timeString, sizeof(timeString), " %Y-%m-%d  %H:%M:%S ", timeInfo);
+    strftime(timeString, sizeof(timeString), "%Y-%m-%d  %H:%M:%S", timeInfo);
 
     char recordText[128];
     snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", score, timeString);

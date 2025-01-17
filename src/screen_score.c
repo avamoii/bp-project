@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include <raylib.h>
 #include "screen.h"
 #include <string.h>
+
 #define MAX_RECORDS 10
+
 bool IsScoreScreenFinished = false;
 
 typedef struct {
     char name[50];
     int score;
-    time_t time;
+    char timeString[64];
 } ScoreRecord;
 
 int recordIndex = 0;
-ScoreRecord arr[MAX_RECORDS];
+ScoreRecord records[MAX_RECORDS];
 
 void readInfo(void) {
     // باز کردن فایل باینری برای خواندن اطلاعات
@@ -28,7 +29,7 @@ void readInfo(void) {
 
     while (!feof(file) && recordIndex < MAX_RECORDS) {
         size_t nameLength, timeLength;
-        char name[50], timeString[50];
+        char name[50], timeString[64];
         int score;
 
         // خواندن نام
@@ -42,14 +43,10 @@ void readInfo(void) {
         if (fread(&timeLength, 20, 1, file) != 1) break;
         if (fread(timeString, sizeof(char), timeLength, file) != timeLength) break;
 
-        // نمایش اطلاعات در صفحه با استفاده از Raylib
-        char displayText[200];
-        snprintf(displayText, sizeof(displayText), "Name: %s | Score: %d | Time: %s", name, score, timeString);
+        strcpy(records[recordIndex].name, name);
+        strcpy(records[recordIndex].timeString, timeString);
+        records[recordIndex].score = score;
 
-
-        strcpy(arr[recordIndex].name, name);
-        arr[recordIndex].score = score;
-        // arr[recordIndex].time = time;
         recordIndex++;
     }
 
@@ -72,11 +69,10 @@ void DrawScoreScreen(void) {
     ClearBackground(RAYWHITE);
 
     for (int i = 0; i < recordIndex; i++) {
-        DrawText(arr[i].name, 100, 100 + i * 20, 20,RED);
-        //strftime(timeString, sizeof(timeString), " %Y-%m-%d  %H:%M:%S ", timeInfo);
-        // DrawText(recordText, 50, 120, 20, YELLOW);
-        //char recordText[128];
-        // snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", score, timeString);
+        char recordText[128];
+        snprintf(recordText, sizeof(recordText), "Score : %d, Date and Time: %s", records[i].score, records[i].timeString);
+        DrawText(recordText, 50, 120, 20, YELLOW);
+        DrawText(records[i].name, 50, 400, 20, YELLOW);
     }
 }
 
