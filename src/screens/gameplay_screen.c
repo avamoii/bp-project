@@ -1,16 +1,15 @@
 #include <raylib.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include<stdbool.h>
 #include <time.h>
 #include "screen.h"
-
 
 #define ROWS 24
 #define COLS 32
 #define TILE_SIZE 30
 #define mapWidth 960
 #define mapHeight 720
+
 //==========================================================================
 bool isCherryEaten = false;
 time_t cherryTimeStart;
@@ -19,6 +18,7 @@ time_t pepperTimeStart;
 int remainingFoods = 10;
 time_t lastCollisionTime = 0;
 Music gameplayMusic;
+
 //==========================================================================
 bool isGameOver;
 Texture2D cherry;
@@ -32,6 +32,7 @@ Texture2D ghost12;
 Texture2D ghost13;
 Texture2D ghost14;
 Texture2D ghost15;
+
 //------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------
 typedef struct {
@@ -58,13 +59,7 @@ typedef struct {
 Pacman pacman;
 Ghost ghost1, ghost2, ghost3, ghost4, ghost5;
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-
-
 int Map[24][32];
-//-----------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------
 
 void initMap() {
     int tempMap[24][32] = {
@@ -114,8 +109,6 @@ void placeRandomFoods(int input1, int input2) {
     }
 }
 
-//-----------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------
 //pacman random location
 void pacmanRandomlocation(int map[ROWS][COLS], Pacman *ptr) {
     while (1) {
@@ -129,8 +122,6 @@ void pacmanRandomlocation(int map[ROWS][COLS], Pacman *ptr) {
     }
 }
 
-//--------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------
 //ghosts random location
 void ghostRandomlocation(int map[ROWS][COLS], Ghost *ptr) {
     while (1) {
@@ -143,9 +134,6 @@ void ghostRandomlocation(int map[ROWS][COLS], Ghost *ptr) {
         }
     }
 }
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
 
 // pacman movement
 void MovePacman(Pacman *pacman) {
@@ -199,9 +187,6 @@ void checkFoods(Pacman *pacman) {
         if (remainingFoods == 0) {
             remainingFoods = 10;
             placeRandomFoods(10, 2);
-
-
-
         }
     } else if (Map[pacman->y][pacman->x] == 3) {
         isCherryEaten = true;
@@ -244,7 +229,6 @@ void updatePepperMode(Pacman *pacman) {
     }
 }
 
-//================================================================================================
 void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3, Ghost *ghost4, Ghost *ghost5) {
     time_t currentTime = time(NULL);
     if (isCherryEaten) {
@@ -288,7 +272,6 @@ void logicOfTheGame(Pacman *pacman, Ghost *ghost1, Ghost *ghost2, Ghost *ghost3,
     }
 }
 
-
 void checkGameOver(Pacman *pacman) {
     if (pacman->lives <= 0) {
         AddRecord(pacman->score);
@@ -296,9 +279,6 @@ void checkGameOver(Pacman *pacman) {
         isGameOver = true;
     }
 }
-
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
 
 void InitGameplayScreen(void) {
     initMap();
@@ -363,11 +343,7 @@ void InitGameplayScreen(void) {
     SeekMusicStream(gameplayMusic, 2.0f);
 }
 
-//-------------------------------------------------------------------------------------------------
-
 void DrawGameplayScreen(void) {
-    //-------------------------------------------------------------------------------------
-    //-------------------------------------------------------------------------------------
     Color myColor1 = (Color){0, 0, 90, 255};
     Color myColor2 = (Color){173, 216, 230, 255};
     Color yellow = (Color){204, 204, 0, 255};
@@ -476,12 +452,10 @@ void UpdateGameplayScreen(void) {
         UpdateMusicStream(gameplayMusic);
         if (GetMusicTimePlayed(gameplayMusic) >= GetMusicTimeLength(gameplayMusic)) {
             SeekMusicStream(gameplayMusic, 5.0f); // بازگشت به ثانیه 5
-            PlayMusicStream(gameplayMusic);      // دوباره شروع پخش
+            PlayMusicStream(gameplayMusic); // دوباره شروع پخش
         }
     }
 }
-
-
 
 void UnloadGameplayScreen(void) {
     UnloadTexture(pacmanOpen);
