@@ -358,7 +358,7 @@ void InitGameplayScreen(void) {
     ghost5.dy = 0;
 
     InitAudioDevice();
-    gameplayMusic = LoadMusicStream("../tools/background.mp3");
+    gameplayMusic = LoadMusicStream("../assets/background.mp3");
     PlayMusicStream(gameplayMusic);
     SeekMusicStream(gameplayMusic, 2.0f);
 }

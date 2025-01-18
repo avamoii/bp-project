@@ -16,7 +16,7 @@ static Texture2D background;
 
 // Menu Screen Initialization logic
 void InitMenuScreen(void) {
-    background = LoadTexture("../tools/background4.jpg");
+    background = LoadTexture("../assets/background4.jpg");
     selectedOption = 0;
     finalOption = MENU;
 }
