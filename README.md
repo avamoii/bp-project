@@ -16,14 +16,9 @@ This project is a **PacMan game** developed as part of the Fundamental Programmi
 
 ## Screenshots
 Here are some screenshots from different screens of the game:
-
-| Screen            | Screenshot                                                                 | Description                                                                 |
-|-------------------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| **Menu Screen**   | <img width="1072" alt="image" src="https://github.com/user-attachments/assets/c229b4ac-a8ad-4c42-8c11-0ecd2525fd40" />                             | Displays options to Play, View Scores, or Exit.                            |
-| **Name Screen**   | <img width="1072" alt="image" src="https://github.com/user-attachments/assets/7e014150-fc69-4981-aa25-f2b6dee26500" />                               | Allows players to input their name before starting the game.               |
-| **Gameplay Screen** | <img width="1072" alt="image" src="https://github.com/user-attachments/assets/d394b833-7377-4b1b-8ae5-cadc21acef83" />                         | Classic PacMan gameplay.                                                   |
-| **Ending Screen** | <img width="1072" alt="image" src="https://github.com/user-attachments/assets/02f8d231-dd98-411e-904e-378198ad5134" />                               | Shows the player's score, time, and name.                                  |
-| **Score Screen**  | <img width="1072" alt="image" src="https://github.com/user-attachments/assets/80d029a4-4a88-404f-9e16-8ca37228cc86" />                                 | Displays the top 10 scores with details, including player names and dates. |
+| <img width="1072" alt="image" src="https://github.com/user-attachments/assets/c229b4ac-a8ad-4c42-8c11-0ecd2525fd40" /> | <img width="1072" alt="image" src="https://github.com/user-attachments/assets/d394b833-7377-4b1b-8ae5-cadc21acef83" /> |
+|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| <img width="1072" alt="image" src="https://github.com/user-attachments/assets/02f8d231-dd98-411e-904e-378198ad5134" /> | <img width="1072" alt="image" src="https://github.com/user-attachments/assets/80d029a4-4a88-404f-9e16-8ca37228cc86" /> |
 
 
 ### Screen Architecture
