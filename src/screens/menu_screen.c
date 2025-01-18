@@ -1,5 +1,4 @@
 #include <raylib.h>
-
 #include "screen.h"
 
 //----------------------------------------------------------------------------------
@@ -22,21 +21,20 @@ void InitMenuScreen(void) {
 }
 
 // Menu Screen Update logic
-void UpdateMenuScreen(void)
-{
+void UpdateMenuScreen(void) {
     if (IsKeyPressed(KEY_DOWN)) selectedOption++;
     if (IsKeyPressed(KEY_UP)) selectedOption--;
     if (selectedOption < 0) selectedOption = 0;
-    if (selectedOption > 2) selectedOption = 2;  // تعداد گزینه‌ها
+    if (selectedOption > 2) selectedOption = 2; // تعداد گزینه‌ها
     if (IsKeyPressed(KEY_ENTER)) {
         switch (selectedOption) {
-        case 0:finalOption = NAME;
-            break;
-        case 1:finalOption = SCORE;
-            break;
-        case 2: CloseWindow();
-            break;
-        default:finalOption = MENU;
+            case 0: finalOption = NAME;
+                break;
+            case 1: finalOption = SCORE;
+                break;
+            case 2: CloseWindow();
+                break;
+            default: finalOption = MENU;
         }
     }
 }
@@ -58,7 +56,6 @@ void UnloadMenuScreen(void) {
 }
 
 // Logo Screen should finish?
-int  FinishMenuScreen(void)
-{
+int FinishMenuScreen(void) {
     return finalOption;
 }
