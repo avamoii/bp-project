@@ -3,7 +3,7 @@
 ## Fundamental Programming - Amirkabir University of Technology - Fall 2024
 
 ## Overview
-This project is a **PacMan game** developed as part of the Fundamental Programming course. It is implemented in **C** using the **raylib** graphics library and **CMake** for building the project. The game features multiple screens, including a menu, gameplay, and score display, providing an engaging experience for players.
+This project is a **PacMan game** developed as part of the Fundamental Programming course. It is implemented in **C** using the [**raylib**](https://www.raylib.com/) graphics library and [**CMake**](https://cmake.org/) for building the project. The game features multiple screens, including a menu, gameplay, and score display, providing an engaging experience for players.
 
 ## Features
 - **Menu Screen**: Displays options to Play, View Scores, or Exit the game.
@@ -63,8 +63,8 @@ Contributions are welcome! Please follow these steps:
 This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgments
-- **raylib**: For providing the graphics library.
-- **CMake**: For simplifying the build process.
+- [**raylib**](https://www.raylib.com/): For providing the graphics library.
+- [**CMake**](https://cmake.org/): For simplifying the build process.
 
 ---
 
