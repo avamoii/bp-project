@@ -32,8 +32,6 @@ else ()
 endif ()
 
 add_executable(bp src/main.c
-        src/map.h
-        src/map.c
         src/temp.c
         src/pacman.h
         src/pacman.c
