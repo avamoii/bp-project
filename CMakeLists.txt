@@ -32,12 +32,12 @@ else ()
 endif ()
 
 add_executable(bp src/main.c
-        src/screen.h
-        src/screen_menu.c
-        src/screen_gameplay.c
-        src/screen_score.c
-        src/screen_ending.c
-        src/screen_name.c
+        src/screens/screen.h
+        src/screens/screen_menu.c
+        src/screens/screen_gameplay.c
+        src/screens/screen_score.c
+        src/screens/screen_ending.c
+        src/screens/screen_name.c
 )
 
 # set the include directory

@@ -1,5 +1,5 @@
 #include <raylib.h>
-#include "screen.h"
+#include "screens/screen.h"
 
 
 //----------------------------------------------------------------------------------
