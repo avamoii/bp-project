@@ -92,7 +92,6 @@ void DrawEndingScreen(void) {
     DrawText(name1, 50, 200, 40, YELLOW);
 
     DrawText("Press ENTER to return", 70, 520, 30,GRAY);
-
 }
 
 void UnloadEndingScreen(void) {
