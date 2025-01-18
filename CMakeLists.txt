@@ -33,11 +33,11 @@ endif ()
 
 add_executable(bp src/main.c
         src/screens/screen.h
-        src/screens/screen_menu.c
-        src/screens/screen_gameplay.c
-        src/screens/screen_score.c
-        src/screens/screen_ending.c
-        src/screens/screen_name.c
+        src/screens/menu_screen.c
+        src/screens/gameplay_screen.c
+        src/screens/score_screen.c
+        src/screens/ending_screen.c
+        src/screens/name_screen.c
 )
 
 # set the include directory
