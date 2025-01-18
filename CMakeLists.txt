@@ -33,8 +33,6 @@ endif ()
 
 add_executable(bp src/main.c
         src/temp.c
-        src/pacman.h
-        src/pacman.c
         src/screen.h
         src/screen_menu.c
         src/screen_gameplay.c
